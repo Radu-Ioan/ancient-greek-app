@@ -12,16 +12,20 @@ import { Box, Button, Paper, Stack } from "@mui/material";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 
 import NavigateNext from "@mui/icons-material/NavigateNext";
-import {
-  CenteringBox,
-  LESSON_URL,
-  SIGN_IN_PATH,
-} from "src/utils";
+import { CenteringBox, LESSON_URL, SIGN_IN_PATH } from "src/utils";
 import {
   playCorrectAudio,
   playWrongAudio,
   playLessonEndAudio,
 } from "src/utils/media-service";
+
+const exerciseTypes = {
+  answer: 'AnswerExercise',
+  choose: 'ChooseRightAnswer',
+  complete: 'CompleteExercise',
+  joinwords: 'JoinWordsExercise',
+  order: 'OrderWordsExercise'
+}
 
 function renderExercise(
   exerciseObj: any,
@@ -29,7 +33,7 @@ function renderExercise(
   idx: number | null = null
 ) {
   const switchObject: any = {
-    [OrderWordsExercise.name]: (
+    [exerciseTypes.order]: (
       <OrderWordsExercise
         query={exerciseObj.query}
         wordpieces={exerciseObj.wordpieces}
@@ -38,7 +42,7 @@ function renderExercise(
       />
     ),
 
-    [JoinWordsExercise.name]: (
+    [exerciseTypes.joinwords]: (
       <JoinWordsExercise
         query={exerciseObj.query}
         joinPairs={exerciseObj.joinpairs}
@@ -47,7 +51,7 @@ function renderExercise(
       />
     ),
 
-    [CompleteExercise.name]: (
+    [exerciseTypes.complete]: (
       <CompleteExercise
         query={exerciseObj.query}
         textItems={exerciseObj.text_items}
@@ -56,7 +60,7 @@ function renderExercise(
       />
     ),
 
-    [AnswerExercise.name]: (
+    [exerciseTypes.answer]: (
       <AnswerExercise
         question={exerciseObj.question}
         rightAnswer={exerciseObj.answer}
@@ -126,7 +130,7 @@ export default function LessonPage() {
 
     if (exerciseCrtNr + 1 === exercises.length) {
       setFinished(() => true);
-      playLessonEndAudio()
+      playLessonEndAudio();
     }
 
     axios
@@ -156,7 +160,8 @@ export default function LessonPage() {
             sx={{
               display: "flex",
               justifyContent: "center",
-            }}>
+            }}
+          >
             <Paper
               sx={{
                 display: "flex",
@@ -165,7 +170,8 @@ export default function LessonPage() {
                 fontWeight: "700",
                 maxWidth: "500px",
                 padding: "20px",
-              }}>
+              }}
+            >
               <p style={{ textAlign: "center", fontSize: "1.5rem" }}>
                 Lesson completed
               </p>
@@ -205,7 +211,8 @@ export default function LessonPage() {
             sx={{
               display: "flex",
               justifyContent: "center",
-            }}>
+            }}
+          >
             <Button variant="outlined">
               <Link to="/lessons" style={{ textDecoration: "none" }}>
                 Back to lesson list
@@ -220,7 +227,8 @@ export default function LessonPage() {
             variant="contained"
             disableTouchRipple
             endIcon={<NavigateNext />}
-            onClick={handleContinueClick}>
+            onClick={handleContinueClick}
+          >
             Continue
           </Button>
         </CenteringBox>
