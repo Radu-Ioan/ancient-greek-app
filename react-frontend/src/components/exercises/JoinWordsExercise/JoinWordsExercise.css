@@ -1,0 +1,11 @@
+.col-btn {
+    color: #1976d2;
+    border: 1px solid blue !important;
+    background-color: inherit;
+    border-radius: 5px;
+    padding: 6px;
+}
+
+.col-btn:hover {
+    background-color: #f1f9f7;
+}

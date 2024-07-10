@@ -1,0 +1,8 @@
+{% extends "learning/custom_admin/completeexercise/edit.html" %}
+{% block navbar %}
+    {% with navbar_file="learning/custom_admin/components/exercises-navbar.html" %}
+        {% with page_header="Add complete exercise" %}
+            {% include navbar_file %}
+        {% endwith %}
+    {% endwith %}
+{% endblock %}

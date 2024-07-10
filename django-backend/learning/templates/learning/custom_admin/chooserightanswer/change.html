@@ -1,0 +1,16 @@
+{% extends "learning/custom_admin/chooserightanswer/edit.html" %}
+{% block navbar %}
+    {% with navbar_file="learning/custom_admin/components/exercises-navbar.html" %}
+        {% with page_header="Change choose right answer exercise for lesson "|add:lesson_id %}
+            {% include navbar_file %}
+        {% endwith %}
+    {% endwith %}
+{% endblock %}
+{% block delete_btn %}
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+        Delete
+    </button>
+{% endblock %}
+{% block delete_modal %}
+    {% include "learning/custom_admin/components/exercise-delete-modal.html" %}
+{% endblock %}

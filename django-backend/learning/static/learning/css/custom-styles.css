@@ -1,0 +1,17 @@
+select {
+    height: auto;
+}
+
+#sentence-label-div > label {
+    font-size: 1rem;
+    margin-right: 10px;
+}
+
+.larger-input-wrapper > input {
+    min-width: 300px;
+}
+
+.mb-3 {
+    margin-bottom: 3px;
+}
+

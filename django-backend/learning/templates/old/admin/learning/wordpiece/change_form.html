@@ -1,0 +1,58 @@
+{% extends "admin/change_form.html" %}
+{% load static %}
+{% load i18n admin_urls %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'learning/css/greek-keyboard.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'learning/css/custom-styles.css' %}">
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script type="module" src="{% static 'learning/js/greek-keyboard.js' %}"></script>
+    <script type="module" src="{% static 'learning/js/greek-constants.js' %}"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Piazzolla:opsz,wght@8..30,600&display=swap" rel="stylesheet">
+
+    <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet">
+    <script href="{% static 'bootstrap.bundle.min.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+
+    <form method="post" id="wordpiece_form" novalidate>
+        {% csrf_token %}
+
+        {% include 'learning/greek-keyboard.html' with greek_word_name="content" %}
+
+        <div class="container-fluid d-flex flex-column mt-3">
+            <div class="container-fluid d-flex flex-column">
+                {% for fieldset in adminform %}
+                    {% for line in fieldset %}
+                        {% for field in line %}
+                            {% if field.field.name == 'sentence' %}
+                                <div class="flex-container fieldBox">
+                                    <div id="sentence-label-div" class="align-content-center">
+                                        {{ field.label_tag }}
+                                    </div>
+                                    {{ field.field }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+
+            <div class="container-fluid d-flex flex-wrap mt-3 gap-3">
+                <button type="submit" name="_save" class="btn btn-success">Save</button>
+                <button type="submit" name="_addanother" class="btn btn-success">Save and add another</button>
+                <button type="submit" name="_delete" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+

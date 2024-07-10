@@ -1,0 +1,11 @@
+{{ form.non_field_errors }}
+
+{% for field in form.visible_fields %}
+    <h4>{{ field.label_tag }}</h4>
+    {{ field.errors }}
+    {{ field }}
+{% endfor %}
+
+{% for hidden_field in form.hidden_fields %}
+    {{ hidden_field }}
+{% endfor %}

@@ -1,0 +1,8 @@
+{% extends "learning/custom_admin/orderwordsexercise/edit.html" %}
+{% block navbar %}
+    {% with navbar_file="learning/custom_admin/components/exercises-navbar.html" %}
+        {% with page_header="Add order words exercise" %}
+            {% include navbar_file %}
+        {% endwith %}
+    {% endwith %}
+{% endblock %}

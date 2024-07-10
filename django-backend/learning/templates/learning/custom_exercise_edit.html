@@ -1,0 +1,32 @@
+{% extends "admin/change_form.html" %}
+{% load static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'learning/css/greek-keyboard.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'learning/css/custom-styles.css' %}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Piazzolla:opsz,wght@8..30,600&display=swap" rel="stylesheet">
+
+{% endblock %}
+{% block after_related_objects %}
+    <div class="mb-3">
+
+        <label for="switch-greek-input">Use greek keyboard</label>
+        <input id="switch-greek-input" type="checkbox" checked>
+
+        {% include "learning/greek-keyboard-inline.html" %}
+    </div>
+{% endblock %}
+{% block admin_change_form_document_ready %}
+    {{ block.super }}
+    <script type="module" src="{% static 'learning/js/greek-keyboard-inline.js' %}"></script>
+    <script type="module" src="{% static 'learning/js/greek-constants.js' %}"></script>
+    <script type="module" src="{% static 'learning/js/custom_edit_utils.js' %}"></script>
+
+
+    {% block exercise_model_script %}
+    {% endblock %}
+{% endblock %}

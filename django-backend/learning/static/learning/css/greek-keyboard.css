@@ -1,0 +1,181 @@
+.keybd-col {
+    margin-left: 2px;
+    display: flex;
+    flex-direction: column;
+
+    max-width: 700px;
+}
+
+/* the input where keyboard writes */
+#kb-greek-input {
+    font-size: 1.5rem;
+    font-family: 'Piazzolla', serif;
+}
+
+.keyboard {
+    /* every row with the buttons will be placed consecutively */
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000;
+    margin-top: 10px;
+
+    padding: 10px;
+    row-gap: 3px;
+}
+
+.keybd-col, .keyboard {
+    overflow: auto;
+}
+
+.kb-key-btn, .key-ctrl-btn {
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 2px;
+
+    margin-left: 1px;
+    margin-right: 2px;
+
+    padding-left: 7px;
+    padding-right: 7px;
+
+    min-width: 35px;
+    min-height: 25px;
+
+    font-size: 1.3rem;
+    font-family: 'Piazzolla', serif;
+}
+.kb-key-btn:hover {
+    background-color: cornsilk;
+}
+
+.kb-row-1 {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+}
+.kb-row-2 {
+    padding-left: 1%;
+    padding-right: 2%;
+    display: flex;
+    justify-content: center;
+}
+.kb-row-3 {
+    padding-left: 3%;
+    padding-right: 6%;
+    display: flex;
+    justify-content: center;
+}
+.kb-row-4 {
+    display: flex;
+    column-gap: 5px;
+    margin-top: 10px;
+
+    justify-content: center;
+
+}
+.kb-row-5 {
+    margin-top: 10px;
+}
+
+
+.kb-extra-box {
+    margin-top: 10px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    column-gap: 1px;
+}
+.kb-extra-div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-height: 300px;
+
+    justify-content: center;
+}
+
+.kb-extra-box, .kb-extra-div {
+    row-gap: 5px;
+}
+
+.key-ctrl-btn {
+    border-radius: 1px;
+    margin-left: 0;
+    margin-right: 0;
+
+    font-family: Tahoma, sans-serif;
+}
+
+
+#kb-space-btn {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+#kb-backspace-btn {
+    margin-left: auto;
+}
+#kb-case-btn:hover {
+    background-color: rgb(185, 237, 220);
+}
+#kb-backspace-btn:hover {
+    background-color: rgb(241, 212, 212);
+}
+#kb-del-all-btn:hover {
+    background-color: rgb(245, 137, 137);
+}
+#kb-extra-box-btn {
+    color: white;
+    background-color: rgb(18, 164, 226);
+    border: none;
+    border-radius: 3px;
+}
+#kb-extra-box-btn:hover {
+    background-color: rgb(39, 170, 226);
+}
+
+
+@media screen and (max-width: 1000px) {
+    .keybd-col, .keyboard {
+        min-width: 300px;
+    }
+}
+
+@media screen and (max-width: 430px) {
+    .kb-key-btn {
+        min-width: 25px;
+        min-height: 15px;
+        font-size: 1rem;
+    }
+    .keybd-col {
+        margin-left: 1px;
+    }
+    .key-ctrl-btn {
+        font-size: 0.9rem;
+    }
+}
+
+
+.extra-click-box {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    max-width: 350px;
+
+    z-index: 10;
+}
+
+.extra-click-btn {
+    background-color: #f8f0df;
+    font-size: 2rem;
+    font-family: Tahoma, sans-serif;
+    font-family: 'Piazzolla', serif;
+
+    padding: 5px 10px;
+}
+.extra-click-btn:hover {
+    background-color: white;
+}

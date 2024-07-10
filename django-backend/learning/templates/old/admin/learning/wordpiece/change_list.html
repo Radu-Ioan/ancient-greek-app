@@ -1,0 +1,23 @@
+{% extends 'admin/change_list.html' %}
+{% load static %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'learning/css/greek-keyboard.css' %}">
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script type="module" src="{% static 'learning/js/greek-keyboard.js' %}"></script>
+    <script type="module" src="{% static 'learning/js/greek-constants.js' %}"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Piazzolla:opsz,wght@8..30,600&display=swap" rel="stylesheet">
+
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    {% include 'learning/greek-keyboard.html' %}
+{% endblock %}

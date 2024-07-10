@@ -1,0 +1,18 @@
+<tbody>
+<tr class="d-none" id="id_empty-form">
+    <td></td>
+    <td>
+        {{ formset.empty_form.first.errors }}
+        {{ formset.empty_form.first }}
+    </td>
+    <td>
+        {{ formset.empty_form.second.errors }}
+        {{ formset.empty_form.second }}
+    </td>
+    <td>
+        <button type="button" class="inline-deletelink"></button>
+    </td>
+    {{ formset.empty_form.id }}
+    {{ formset.empty_form.exercise }}
+</tr>
+</tbody>

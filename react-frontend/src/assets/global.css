@@ -1,0 +1,17 @@
+.wrong-border {
+  border-color: crimson;
+}
+.correct-border {
+  border-color: rgb(21, 210, 50);
+}
+
+.wrong-border,
+.correct-border {
+  border-width: 0.2rem;
+  border-style: solid;
+  border-radius: 5px;
+}
+
+.disabled-input {
+  background-color: white !important;
+}

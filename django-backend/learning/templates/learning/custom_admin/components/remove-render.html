@@ -1,0 +1,7 @@
+{% with formset.management_form as mg_form %}
+    {% if forloop.counter <= mg_form.INITIAL_FORMS.value %}
+        {{ inline_form.DELETE }}
+    {% else %}
+        <button type="button" class="inline-deletelink"></button>
+    {% endif %}
+{% endwith %}

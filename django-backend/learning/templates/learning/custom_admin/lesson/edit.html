@@ -1,0 +1,103 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include "learning/custom_admin/components/head-refs.html" %}
+
+    <title>Edit lesson</title>
+    <script type="module" src="{% static 'learning/custom_admin/js/lesson_edit.js' %}"></script>
+
+    <style>
+        .controlled-input {
+            font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+{% block navbar %}
+{% endblock %}
+
+<form method="post" action="" class="container-fluid mt-2 me-3" id="id_lesson_form">
+    {% csrf_token %}
+
+    <div class="container-fluid d-flex flex-column gap-3 me-3">
+        <div class="container-fluid d-flex gap-3 flex-column flex-md-row align-items-start me-3">
+            <div class="d-flex flex-column flex-sm-grow-1 gap-1 mb-5">
+
+                <div class="d-flex flex-column flex-md-row gap-2">
+                    <div class="flex-md-grow-1">
+                        {{ form.non_field_errors }}
+
+                        {% for field in form.visible_fields %}
+                            <h4>{{ field.label_tag }}</h4>
+                            <div style="color: red">
+                                {{ field.errors }}
+                            </div>
+                            {{ field }}
+                        {% endfor %}
+
+                        {% for hidden_field in form.hidden_fields %}
+                            {{ hidden_field }}
+                        {% endfor %}
+                    </div>
+                    {% include "learning/custom_admin/components/keyboard-component.html" %}
+                </div>
+
+                <div>
+                    <h4>Exercises</h4>
+                    <form method="post" action="">
+                        <fieldset>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Order</th>
+                                    <th>Type</th>
+                                    <th>Data</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for exercise in exercises %}
+                                    <tr>
+                                        <td>{{ exercise.order }}</td>
+                                        <td><a href="{{ exercise.get_absolute_url }}" class="text-decoration-none">
+                                            {{ exercise }}
+                                        </a></td>
+                                        <td>{{ exercise.get_display }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <input type="hidden" name="exercise_type" id="exercise_type" value="">
+
+                <div class="d-flex flex-column row-gap-2 d-sm-flex flex-sm-row flex-grow-1">
+                    <div class="dropdown d-flex flex-grow-1 flex-sm-grow-0">
+                        <button
+                            class="btn btn-secondary dropdown-toggle flex-grow-1 flex-sm-grow-0"
+                            type="button"
+                            id="dropdownMenuButton"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Add exercise
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {% for add_link, description in add_view_names.items %}
+                                <a class="dropdown-item add-exercise" href="#"
+                                   data-exercise-type="{{ add_link }}">{{ description }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="ms-sm-auto d-flex flex-grow-1 flex-sm-grow-0">
+                        <button type="submit" class="btn btn-success flex-grow-1 flex-sm-grow-0">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

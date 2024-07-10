@@ -1,0 +1,20 @@
+<tbody>
+<tr class="d-none" id="id_empty-form">
+    <!-- this is for counter--->
+    <td></td>
+    <td>
+        {{ formset.empty_form.content.errors }}
+        {{ formset.empty_form.content }}
+    </td>
+    <td>
+        {{ formset.empty_form.is_correct.errors }}
+        {{ formset.empty_form.is_correct }}
+    </td>
+    <td>
+        <button type="button" class="inline-deletelink"></button>
+    </td>
+    {% for hidden_field in formset.empty_form.hidden_fields %}
+        {{ hidden_field }}
+    {% endfor %}
+</tr>
+</tbody>

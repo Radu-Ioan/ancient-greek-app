@@ -1,0 +1,15 @@
+{% extends "learning/custom_admin/lesson/edit.html" %}
+{% block navbar %}
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">
+                Change lesson {{ lesson_id }}
+            </span>
+            <a
+                class="align-self-end navbar-brand"
+                href="{% url 'admin:learning_lesson_changelist' %}">
+                Back to lessons page
+            </a>
+        </div>
+    </nav>
+{% endblock %}

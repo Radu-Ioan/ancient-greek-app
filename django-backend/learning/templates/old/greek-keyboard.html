@@ -1,0 +1,61 @@
+{% block greek-keyboard %}
+
+<div class="keybd-col">
+
+    <input type="text"
+        id="kb-greek-input"
+        name="{{ greek_word_name|default:'greek-word' }}"
+        value="{{ greek_word_value|default:'' }}">
+
+    <div class="keyboard">
+        <div class="kb-row-1">
+            <button type="button" id="sigma1" class="kb-key-btn">&#962;</button>
+            <button type="button" id="omega" class="kb-key-btn">&#969;</button>
+            <button type="button" id="epsilon" class="kb-key-btn">&#949;</button>
+            <button type="button" id="rho" class="kb-key-btn">&#961;</button>
+            <button type="button" id="tau" class="kb-key-btn">&#964;</button>
+            <button type="button" id="upsilon" class="kb-key-btn">&#965;</button>
+            <button type="button" id="y" class="kb-key-btn">&#965;</button>
+            <button type="button" id="iota" class="kb-key-btn">&#953;</button>
+            <button type="button" id="omicron" class="kb-key-btn">&#959;</button>
+            <button type="button" id="pi" class="kb-key-btn">&#960;</button>
+        </div>
+        <div class="kb-row-2">
+            <button type="button" id="alpha" class="kb-key-btn">&#945;</button>
+            <button type="button" id="sigma2" class="kb-key-btn">&#963;</button>
+            <button type="button" id="delta" class="kb-key-btn">&#948;</button>
+            <button type="button" id="phi" class="kb-key-btn">&#966;</button>
+            <button type="button" id="gamma" class="kb-key-btn">&#947;</button>
+            <button type="button" id="eta" class="kb-key-btn">&#951;</button>
+            <button type="button" id="theta" class="kb-key-btn">&#952;</button>
+            <button type="button" id="kappa" class="kb-key-btn">&#954;</button>
+            <button type="button" id="lambda" class="kb-key-btn">&#955;</button>
+        </div>
+        <div class="kb-row-3">
+            <button type="button" id="zeta" class="kb-key-btn">&#950;</button>
+            <button type="button" id="xi" class="kb-key-btn">&#958;</button>
+            <button type="button" id="chi" class="kb-key-btn">&#967;</button>
+            <button type="button" id="psi" class="kb-key-btn">&#968;</button>
+            <button type="button" id="beta" class="kb-key-btn">&#946;</button>
+            <button type="button" id="nu" class="kb-key-btn">&#957;</button>
+            <button type="button" id="mu" class="kb-key-btn">&#956;</button>
+        </div>
+        <div class="kb-row-4">
+            <button type="button" id="kb-case-btn" class="key-ctrl-btn">Aa &#8679;</button>
+            <button type="button" id="kb-space-btn" class="kb-key-btn"></button>
+            <button type="button" id="kb-backspace-btn" class="key-ctrl-btn">&#9003;</button>
+            <button type="button" id="kb-del-all-btn" class="key-ctrl-btn">&#10799;</button>
+        </div>
+        <div class="kb-row-5">
+            <button type="button" id="kb-extra-box-btn" class="key-ctrl-btn">Extend ⬇</button>
+        </div>
+
+
+        <div id="kb-extra-box"></div>
+
+        <div id="extra-click-box" class="extra-click-box"></div>
+
+    </div>
+</div>
+
+{% endblock %}

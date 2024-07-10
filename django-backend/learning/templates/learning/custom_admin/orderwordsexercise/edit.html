@@ -1,0 +1,47 @@
+{% extends "learning/custom_admin/pages/exercise_edit_template.html" %}
+{% load static %}
+{% block custom_head %}
+    <title>Edit order words exercise</title>
+    <script type="module" src="{% static 'learning/custom_admin/js/orderwordsexercise_edit.js' %}"></script>
+{% endblock %}
+
+{% block formset_content %}
+    <h4 class="mt-4">Word pieces:</h4>
+    <div class="container d-flex justify-content-start">
+        <fieldset class="flex-grow-1">
+            {{ formset.non_form_errors }}
+            <table class="table">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Content</th>
+                    <th>Delete?</th>
+                </tr>
+                </thead>
+                <tbody id="{{ prefix }}_tbody">
+                {% for inline_form in formset %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>
+                            {{ inline_form.content.errors }}
+                            {{ inline_form.content }}
+                        </td>
+                        <td>
+                            {% include "learning/custom_admin/components/remove-render.html" %}
+                        </td>
+                        {% for hidden_field in inline_form.hidden_fields %}
+                            {{ hidden_field }}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <!-- I put another tbody to keep the empty form -->
+                {% include "learning/custom_admin/orderwordsexercise/empty_form.html" %}
+            </table>
+        </fieldset>
+    </div>
+{% endblock %}
+
+{% block add_btn %}
+    {% include "learning/custom_admin/components/add-btn.html" with name="word piece" %}
+{% endblock %}
