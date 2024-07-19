@@ -7,9 +7,6 @@ import {
   lessonEndAudioFilename,
 } from "./utils";
 
-// import correctSound from "./media/correct-answer.wav"
-// import wrongSound from "./media/wrong-answer.mp3"
-// import lessonEndSound from "./media/lesson-end.wav"
 import correctSound from "./media/correct-answer.wav"
 import wrongSound from "./media/wrong-answer.mp3"
 import lessonEndSound from "./media/lesson-end.wav"
