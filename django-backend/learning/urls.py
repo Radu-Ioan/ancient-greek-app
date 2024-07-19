@@ -49,9 +49,4 @@ urlpatterns = [
     path('learning/admin/orderwordsexercise/<int:exercise_id>/change/',
          views.custom_orderwords_change,
          name=ORDER_WORDS_EXERCISE_CHANGE_VIEW),
-
-    # Catch-all pattern, must be placed at the end
-    # re_path(r'^(?:.*)/?$', TemplateView.as_view(template_name="index.html")),
-
-    # re_path(r'^.*/?$', TemplateView.as_view(template_name="index.html")),
 ]

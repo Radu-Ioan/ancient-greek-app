@@ -20,11 +20,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('account/', include('account.urls')),
     path('', include('learning.urls')),
     re_path(r'^.*/?$', TemplateView.as_view(template_name="index.html")),
 ]
-# Serve media files in both development and production
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    # Serve media files in development
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

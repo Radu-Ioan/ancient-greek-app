@@ -20,7 +20,7 @@ export const LOGIN_URL = "account/api/token/"
 export const TOKEN_REFRESH_URL = "account/api/token/refresh/"
 export const REGISTER_URL = "account/api/signup/"
 export const LESSON_URL = "api/lessons/"
-export const MEDIA_URL = "media/"
+export const MEDIA_URL = "static/"
 
 export const SIGN_IN_PATH = "/signin"
 export const SIGN_UP_PATH = "/signup"

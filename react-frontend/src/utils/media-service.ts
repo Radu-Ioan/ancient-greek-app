@@ -7,6 +7,9 @@ import {
   lessonEndAudioFilename,
 } from "./utils";
 
+// import correctSound from "./media/correct-answer.wav"
+// import wrongSound from "./media/wrong-answer.mp3"
+// import lessonEndSound from "./media/lesson-end.wav"
 import correctSound from "./media/correct-answer.wav"
 import wrongSound from "./media/wrong-answer.mp3"
 import lessonEndSound from "./media/lesson-end.wav"
@@ -44,17 +47,35 @@ export function preloadAudios() {
 
 function playCorrectAudio() {
   const audio = new Audio(correctSound)
-  audio.play()
+  console.log("correct audio:", audio);
+
+  audio.play().then(() =>  {
+    console.log("Audio played successfully");
+  }).catch((error) => {
+    console.log("Error playing the audio:", error);
+  })
 }
 
 function playWrongAudio() {
   const audio = new Audio(wrongSound)
-  audio.play()
+  console.log("wrong audio:", audio);
+
+  audio.play().then(() =>  {
+    console.log("Audio played successfully");
+  }).catch((error) => {
+    console.log("Error playing the audio:", error);
+  })
 }
 
 function playLessonEndAudio() {
   const audio = new Audio(lessonEndSound)
-  audio.play()
+
+  console.log("Play end sound entered");
+  audio.play().then(() =>  {
+    console.log("Audio played successfully");
+  }).catch((error) => {
+    console.log("Error playing the audio:", error);
+  })
 }
 
 export { playCorrectAudio, playWrongAudio, playLessonEndAudio }

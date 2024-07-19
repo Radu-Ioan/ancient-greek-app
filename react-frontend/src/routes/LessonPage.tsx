@@ -69,7 +69,7 @@ function renderExercise(
       />
     ),
 
-    [ChooseRightAnswer.name]: (
+    [exerciseTypes.choose]: (
       <ChooseRightAnswer
         question={exerciseObj.question}
         answerChoices={exerciseObj.answer_choices}
