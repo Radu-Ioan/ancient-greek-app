@@ -1,3 +1,13 @@
+The project aims to support the persons who study ancient greek to learn 
+in a game-based fashion.
+
+The program provides various types of exercises grouped in lessons.
+
+
+The administrator is the one who creates and fills the lessons with
+exercises using his available interface.
+
+
 # How to run the app
 
 Make sure you have installed python 3 on your computer.  
