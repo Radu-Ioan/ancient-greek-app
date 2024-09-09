@@ -177,7 +177,7 @@ def custom_lesson_change(request, lesson_id):
     else:
         form = LessonForm(instance=lesson)
 
-    exercises = Exercise.objects.filter(lesson=lesson)
+    exercises = Exercise.objects.filter(lesson=lesson).order_by('order')
 
     context = {
         'form': form,
