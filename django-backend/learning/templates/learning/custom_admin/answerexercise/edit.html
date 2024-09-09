@@ -4,3 +4,9 @@
     <title>Edit answer exercise</title>
     <script type="module" src="{% static 'learning/custom_admin/js/answerexercise_edit.js' %}"></script>
 {% endblock %}
+
+{% comment %}
+    leave empty this block as this exercise does not use extra child models
+{% endcomment %}
+
+{% block formset_management_form %}{% endblock formset_management_form %}

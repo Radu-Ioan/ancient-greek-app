@@ -21,7 +21,10 @@
 
 <form method="post" action="" enctype="multipart/form-data" class="container-fluid mt-2">
     {% csrf_token %}
-    {{ formset.management_form }}
+
+    {% block formset_management_form %}
+        {{ formset.management_form }}
+    {% endblock formset_management_form %}
 
     <div class="container-fluid d-flex flex-column gap-3">
         <div class="container-fluid d-flex gap-3 justify-content-lg-center flex-column flex-md-row mr-3">
