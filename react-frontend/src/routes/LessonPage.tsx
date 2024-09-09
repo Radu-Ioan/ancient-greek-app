@@ -9,7 +9,7 @@ import AnswerExercise from "src/components/exercises/AnswerExercise";
 import ChooseRightAnswer from "src/components/exercises/ChooseRightAnswer";
 
 import { Box, Button, Paper, Stack } from "@mui/material";
-import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
+import ScoreResult from "./components/ScoreResult";
 
 import NavigateNext from "@mui/icons-material/NavigateNext";
 import { CenteringBox, LESSON_URL, SIGN_IN_PATH } from "src/utils";
@@ -20,12 +20,12 @@ import {
 } from "src/utils/media-service";
 
 const exerciseTypes = {
-  answer: 'AnswerExercise',
-  choose: 'ChooseRightAnswer',
-  complete: 'CompleteExercise',
-  joinwords: 'JoinWordsExercise',
-  order: 'OrderWordsExercise'
-}
+  answer: "AnswerExercise",
+  choose: "ChooseRightAnswer",
+  complete: "CompleteExercise",
+  joinwords: "JoinWordsExercise",
+  order: "OrderWordsExercise",
+};
 
 function renderExercise(
   exerciseObj: any,
@@ -105,11 +105,16 @@ export default function LessonPage() {
   const [exerciseCrtNr, setExerciseCrtNr] = useState(0);
   const [finished, setFinished] = useState<boolean>(false);
   const [scores, setScores] = useState(
-    Array.from({ length: exercises.length }, () => 0)
+    Array.from({ length: exercises.filter((e) => e.scored).length }, () => 0)
   );
   const [fullScore, setFullScore] = useState<boolean>(false);
 
-  function notifySubmission(allGood: boolean) {
+  function handleSubmission(allGood: boolean, scored: boolean) {
+    if (!scored) {
+      setDisplayContinue(true);
+      return;
+    }
+
     setScores((prevScores) =>
       prevScores.map((score: any, idx: number) =>
         idx === exerciseCrtNr ? +allGood : score
@@ -151,75 +156,16 @@ export default function LessonPage() {
       {!finished ? (
         renderExercise(
           exercises[exerciseCrtNr],
-          notifySubmission,
+          (allGood: boolean) =>
+            handleSubmission(allGood, exercises[exerciseCrtNr].scored),
           exerciseCrtNr
         )
       ) : (
-        <Stack spacing={4}>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Paper
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "column",
-                fontWeight: "700",
-                maxWidth: "500px",
-                padding: "20px",
-              }}
-            >
-              <p style={{ textAlign: "center", fontSize: "1.5rem" }}>
-                Lesson completed
-              </p>
-              <Stack direction="row" justifyContent="center">
-                <label style={{ textAlign: "center", alignSelf: "center" }}>
-                  Score:
-                </label>
-                <Gauge
-                  innerRadius={"70%"}
-                  width={120}
-                  height={90}
-                  value={scores.reduce((acc: number, x: number) => acc + x)}
-                  valueMax={scores.length}
-                  startAngle={-110}
-                  endAngle={110}
-                  sx={{
-                    margin: {
-                      left: "auto",
-                    },
-                    [`& .${gaugeClasses.valueText}`]: {
-                      fontSize: 17,
-                      transform: "translate(0px, 0px)",
-                    },
-                  }}
-                  text={({ value, valueMax }) => `${value} / ${valueMax}`}
-                />
-                <CenteringBox></CenteringBox>
-              </Stack>
-              {fullScore && (
-                <p style={{ textAlign: "center", fontSize: "1.7rem" }}>
-                  Congratulations!
-                </p>
-              )}
-            </Paper>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <Button variant="outlined">
-              <Link to="/lessons" style={{ textDecoration: "none" }}>
-                Back to lesson list
-              </Link>
-            </Button>
-          </Box>
-        </Stack>
+        <ScoreResult
+          scores={scores}
+          fullScore={fullScore}
+          backPath="/lessons"
+        />
       )}
       {displayContinue && (
         <CenteringBox>

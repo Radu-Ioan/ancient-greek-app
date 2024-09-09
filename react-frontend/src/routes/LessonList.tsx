@@ -109,6 +109,7 @@ function LessonList() {
                   textTransform: "none",
                   textDecorationColor: "none",
                   fontSize: "1.3rem",
+                  justifyContent: "flex-start"
                 }}
                 onClick={(e) =>
                   handleClick(e, idx, anchorButtons, setAnchorButtons)
