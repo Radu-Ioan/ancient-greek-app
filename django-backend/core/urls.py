@@ -22,12 +22,14 @@ from django.views.generic import TemplateView
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    re_path(r'^admin/?', admin.site.urls),
     path('account/', include('account.urls')),
     path('', include('learning.urls')),
-    re_path(r'^.*/?$', TemplateView.as_view(template_name="index.html")),
 ]
 
 if settings.DEBUG:
     # Serve media files in development
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += re_path(r'^.*/?$', TemplateView.as_view(template_name="index.html")),

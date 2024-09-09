@@ -5,7 +5,6 @@ from .constants import *
 
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name="index.html")),
     path('api/lessons/', views.lesson_list),
     path('api/lessons/<int:lesson_id>/', views.lesson_detail),
     path('learning/admin/lessons/add/', views.custom_lesson_add, name=LESSON_ADD_VIEW),
@@ -49,4 +48,5 @@ urlpatterns = [
     path('learning/admin/orderwordsexercise/<int:exercise_id>/change/',
          views.custom_orderwords_change,
          name=ORDER_WORDS_EXERCISE_CHANGE_VIEW),
+    path('', TemplateView.as_view(template_name="index.html")),
 ]
