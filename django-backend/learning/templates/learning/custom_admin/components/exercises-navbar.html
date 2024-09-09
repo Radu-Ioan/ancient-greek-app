@@ -1,11 +1,13 @@
-<nav class="navbar bg-body-tertiary">
+{% load static %}
+<nav class="navbar flex-column flex-sm-row nav-color">
     <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">
+        <span class="navbar-brand mb-0 h1 text-white">
             {{ page_header }}
         </span>
         <a
-            class="align-self-end navbar-brand"
+            class="align-self-end navbar-brand text-white"
             href="{% url 'custom_lesson_change' lesson_id %}">
+            <img src="{% static 'learning/custom_admin/icons8-back-48.png' %}" class="inline-back-image" alt="back-button">
             Back to lesson page
         </a>
     </div>

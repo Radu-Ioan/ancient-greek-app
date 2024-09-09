@@ -1,14 +1,16 @@
 {% extends "learning/custom_admin/lesson/edit.html" %}
+{% load static %}
 {% block navbar %}
-    <nav class="navbar bg-body-tertiary">
+    <nav class="navbar nav-color">
         <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">
+            <span class="navbar-brand mb-0 h1 text-white">
                 Change lesson {{ lesson_id }}
             </span>
             <a
-                class="align-self-end navbar-brand"
+                class="align-self-end navbar-brand text-white"
                 href="{% url 'admin:learning_lesson_changelist' %}">
-                Back to lessons page
+                <img src="{% static 'learning/custom_admin/icons8-back-48.png' %}" class="inline-back-image" alt="back-button">
+                Back to lessons list
             </a>
         </div>
     </nav>

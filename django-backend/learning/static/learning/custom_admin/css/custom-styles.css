@@ -1,0 +1,8 @@
+.nav-color {
+    background-color: #063f6d;
+}
+.inline-back-image {
+    width: auto;   /* Set width */
+    height: 20px;  /* Keep the aspect ratio */
+    vertical-align: middle; /* Align it properly with text */
+}
