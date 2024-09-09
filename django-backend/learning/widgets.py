@@ -1,8 +1,11 @@
 # widgets.py
 
-from django.forms.widgets import TextInput
+from django.forms.widgets import TextInput, ClearableFileInput
 from django.template import loader
 
+
+class CustomFileInput(ClearableFileInput):
+    template_name = 'learning/custom_admin/widgets/clearable_file_input.html'
 
 class CustomKeyboardWidget(TextInput):
     template_name = 'learning/greek-keyboard.html'

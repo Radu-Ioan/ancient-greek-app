@@ -19,7 +19,7 @@
 {% block navbar %}
 {% endblock %}
 
-<form method="post" action="" class="container-fluid mt-2">
+<form method="post" action="" enctype="multipart/form-data" class="container-fluid mt-2">
     {% csrf_token %}
     {{ formset.management_form }}
 

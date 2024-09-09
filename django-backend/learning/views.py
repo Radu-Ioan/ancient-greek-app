@@ -193,8 +193,8 @@ def handle_add_request(request, lesson_id, FormClass, FormsetClass, prefix, temp
     lesson = get_object_or_404(Lesson, pk=lesson_id)
 
     if request.method == 'POST':
-        form = FormClass(request.POST)
-        formset = FormsetClass(request.POST, prefix=prefix)
+        form = FormClass(request.POST, request.FILES)
+        formset = FormsetClass(request.POST, request.FILES, prefix=prefix)
 
         if form.is_valid() and formset.is_valid():
             model_class = FormClass.Meta.model
@@ -229,8 +229,9 @@ def handle_change_request(request, exercise_id, ExerciseModel, FormClass,
 
     if request.method == 'POST':
         current_order = exercise.order
-        form = FormClass(request.POST, instance=exercise)
-        formset = FormsetClass(request.POST, instance=exercise, prefix=prefix)
+        form = FormClass(request.POST, request.FILES, instance=exercise)
+        formset = FormsetClass(request.POST, request.FILES, instance=exercise,
+                               prefix=prefix)
 
         if form.is_valid() and formset.is_valid():
             exercise.order = current_order
@@ -273,7 +274,7 @@ def custom_answer_add(request, lesson_id):
     lesson = get_object_or_404(Lesson, pk=lesson_id)
 
     if request.method == 'POST':
-        form = AnswerExerciseForm(request.POST)
+        form = AnswerExerciseForm(request.POST, request.FILES)
 
         if form.is_valid():
             exercise = AnswerExercise.objects.create(**form.cleaned_data)
@@ -300,7 +301,7 @@ def custom_answer_change(request, exercise_id):
 
     if request.method == 'POST':
         current_order = exercise.order
-        form = AnswerExerciseForm(request.POST, instance=exercise)
+        form = AnswerExerciseForm(request.POST, request.FILES, instance=exercise)
 
         if form.is_valid():
             exercise.order = current_order

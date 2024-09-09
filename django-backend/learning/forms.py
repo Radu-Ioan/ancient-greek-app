@@ -7,13 +7,16 @@ from .models import (
     JoinWordsExercise, JoinPair, CompleteExercise, SentencePiece,
     ChooseRightAnswer, AnswerChoice, AnswerExercise,
 )
+from .widgets import CustomFileInput
+
 
 CONTROLLED_INPUT_CLASSNAME = "controlled-input"
 CONTROLLED_INPUT_SELECTOR = f'.{CONTROLLED_INPUT_CLASSNAME}'
 CSS_INPUT_STYLE = "form-control"
 CSS_SELECT_STYLE = "form-select"
 
-ExerciseFormset = inlineformset_factory(Lesson, Exercise, fields=['order', ], extra=0)
+ExerciseFormset = inlineformset_factory(Lesson, Exercise, fields=['order', ],
+                                        extra=0)
 
 
 class LessonForm(forms.ModelForm):
@@ -23,13 +26,21 @@ class LessonForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['title'].widget.attrs.update({'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'})
-        self.fields['description'].widget.attrs.update({'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'})
-        self.fields['order'].widget.attrs.update({'class': f'{CSS_INPUT_STYLE}'})
+        self.fields['title'].widget.attrs.update({
+            'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'
+        })
+        self.fields['description'].widget.attrs.update({
+            'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'
+        })
+        self.fields['order'].widget.attrs.update({
+            'class': f'{CSS_INPUT_STYLE}'
+        })
 
         max_order = Lesson.objects.aggregate(Max('order'))['order__max']
+
         if max_order is None:
             max_order = 0
+
         self.fields['order'].initial = max_order + 1
 
     def clean_order(self):
@@ -65,11 +76,10 @@ def set_initial_order_for_exercise_forms(fields, kwargs):
         lesson = kwargs['instance'].lesson
     elif 'initial' in kwargs and 'lesson' in kwargs['initial']:
         try:
-            # lesson_id = int(kwargs['initial']['lesson'])
-            # lesson = Lesson.objects.get(id=lesson_id)
             lesson = kwargs['initial']['lesson']
         except (ValueError, Lesson.DoesNotExist):
             pass
+
     # If a lesson is determined, calculate the max order
     if lesson:
         results = Exercise.objects.filter(lesson=lesson).aggregate(Max('order'))
@@ -86,7 +96,8 @@ class WordPieceFormSet(inlineformset_factory(OrderWordsExercise, WordPiece,
 
         for form in self.forms:
             form.fields['content'].widget.attrs.update(
-                {'class': ' '.join([CONTROLLED_INPUT_CLASSNAME, CSS_INPUT_STYLE])}
+                {'class': ' '.join([CONTROLLED_INPUT_CLASSNAME,
+                                    CSS_INPUT_STYLE])}
             )
 
 
@@ -99,7 +110,9 @@ class OrderWordsExerciseForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['lesson'].widget.attrs.update({'class': f'{CSS_SELECT_STYLE}'})
         self.fields['order'].widget.attrs.update({'class': f'{CSS_INPUT_STYLE}'})
-        self.fields['query'].widget.attrs.update({'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'})
+        self.fields['query'].widget.attrs.update({
+            'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'
+        })
 
         set_initial_order_for_exercise_forms(self.fields, kwargs)
 
@@ -122,12 +135,19 @@ class JoinWordsExerciseForm(forms.ModelForm):
     class Meta:
         model = JoinWordsExercise
         fields = '__all__'
+        widgets = {
+            'image': CustomFileInput(),
+            'audio': CustomFileInput(),
+        }
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['lesson'].widget.attrs.update({'class': f'{CSS_SELECT_STYLE}'})
         self.fields['order'].widget.attrs.update({'class': f'{CSS_INPUT_STYLE}'})
-        self.fields['query'].widget.attrs.update({'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'})
+        self.fields['query'].widget.attrs.update({
+            'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'
+        })
 
         set_initial_order_for_exercise_forms(self.fields, kwargs)
 
@@ -147,12 +167,19 @@ class CompleteExerciseForm(forms.ModelForm):
     class Meta:
         model = CompleteExercise
         fields = '__all__'
+        widgets = {
+            'image': CustomFileInput(),
+            'audio': CustomFileInput(),
+        }
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['lesson'].widget.attrs.update({'class': f'{CSS_SELECT_STYLE}'})
         self.fields['order'].widget.attrs.update({'class': f'{CSS_INPUT_STYLE}'})
-        self.fields['query'].widget.attrs.update({'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'})
+        self.fields['query'].widget.attrs.update({
+            'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'
+        })
 
         set_initial_order_for_exercise_forms(self.fields, kwargs)
 
@@ -172,12 +199,19 @@ class ChooseRightAnswerForm(forms.ModelForm):
     class Meta:
         model = ChooseRightAnswer
         fields = '__all__'
+        widgets = {
+            'image': CustomFileInput(),
+            'audio': CustomFileInput(),
+        }
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['lesson'].widget.attrs.update({'class': f'{CSS_SELECT_STYLE}'})
         self.fields['order'].widget.attrs.update({'class': f'{CSS_INPUT_STYLE}'})
-        self.fields['question'].widget.attrs.update({'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'})
+        self.fields['question'].widget.attrs.update({
+            'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'
+        })
 
         set_initial_order_for_exercise_forms(self.fields, kwargs)
 
@@ -186,12 +220,21 @@ class AnswerExerciseForm(forms.ModelForm):
     class Meta:
         model = AnswerExercise
         fields = '__all__'
+        widgets = {
+            'image': CustomFileInput(),
+            'audio': CustomFileInput(),
+        }
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['lesson'].widget.attrs.update({'class': f'{CSS_SELECT_STYLE}'})
         self.fields['order'].widget.attrs.update({'class': f'{CSS_INPUT_STYLE}'})
-        self.fields['question'].widget.attrs.update({'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'})
-        self.fields['answer'].widget.attrs.update({'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'})
+        self.fields['question'].widget.attrs.update({
+            'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'
+        })
+        self.fields['answer'].widget.attrs.update({
+            'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'
+        })
 
         set_initial_order_for_exercise_forms(self.fields, kwargs)

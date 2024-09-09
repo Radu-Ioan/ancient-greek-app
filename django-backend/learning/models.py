@@ -163,6 +163,9 @@ class Exercise(models.Model):
         related_name='exercises'
     )
     order = models.IntegerField(default=1)
+    image = models.ImageField(upload_to="exercises_images", null=True, blank=True)
+    audio = models.FileField(upload_to="exercises_audios", null=True, blank=True)
+    scored = models.BooleanField(default=True)
     objects = ExerciseManager()
 
     class Meta:
@@ -290,3 +293,21 @@ class AnswerExercise(Exercise):
 
     def __str__(self):
         return "Q: [{}], A: [{}]".format(self.question, self.answer)
+
+
+class TipText(Exercise):
+    # markdown
+    text = models.TextField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.scored = False
+
+
+class WordFlashcard(Exercise):
+    original_word = models.CharField(max_length=100)
+    translated_word = models.CharField(max_length=100)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.scored = False
