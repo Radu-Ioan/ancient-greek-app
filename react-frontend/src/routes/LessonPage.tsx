@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLoaderData, redirect, Link } from "react-router-dom";
+import { useLoaderData, redirect, Link, useNavigate } from "react-router-dom";
 import axios from "src/axios-config";
 
 import OrderWordsExercise from "src/components/exercises/OrderWordsExercise";
@@ -8,7 +8,17 @@ import CompleteExercise from "src/components/exercises/CompleteExercise";
 import AnswerExercise from "src/components/exercises/AnswerExercise";
 import ChooseRightAnswer from "src/components/exercises/ChooseRightAnswer";
 
-import { Box, Button, Paper, Stack } from "@mui/material";
+import {
+  Button,
+  LinearProgress,
+  Stack,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
+
 import ScoreResult from "./components/ScoreResult";
 
 import NavigateNext from "@mui/icons-material/NavigateNext";
@@ -109,12 +119,16 @@ export default function LessonPage() {
   );
   const [fullScore, setFullScore] = useState<boolean>(false);
 
+  // this function is run after an exercise is completed, obviously if it is
+  // scored, otherwise it is simply called when the respective exercise
+  // component was passed by the user
   function handleSubmission(allGood: boolean, scored: boolean) {
     if (!scored) {
       setDisplayContinue(true);
       return;
     }
 
+    // if the exercise was correctly solved, mark its flag to true
     setScores((prevScores) =>
       prevScores.map((score: any, idx: number) =>
         idx === exerciseCrtNr ? +allGood : score
@@ -151,8 +165,73 @@ export default function LessonPage() {
     setExerciseCrtNr((prev: number) => prev + 1);
   }
 
+  const [closeModalOpen, setcloseModalOpen] = useState(false);
+
+  const handleExitBtn = () => {
+    setcloseModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setcloseModalOpen(false);
+  };
+
+  const navigate = useNavigate()
+
   return (
-    <Stack spacing={2} mt={4} mb={1} useFlexGap>
+    <Stack spacing={2} mb={1} useFlexGap>
+      <div className="d-flex justify-content-center align-items-center">
+        <LinearProgress
+          value={(exerciseCrtNr / exercises.length) * 100}
+          variant="determinate"
+          className="mx-2 mt-1"
+          sx={{
+            height: "10px",
+            borderRadius: "2px",
+            width: {
+              xs: "80%",
+              sm: "50%",
+            },
+            marginTop: {
+              xs: "20px",
+              sm: "5px",
+            },
+          }}
+        ></LinearProgress>
+        <Button
+          type="button"
+          variant="contained"
+          style={{
+            position: "absolute",
+            bottom: "4px",
+            right: "4px",
+            backgroundColor: "#942906",
+          }}
+          onClick={handleExitBtn}
+        >
+          Exit
+        </Button>
+      </div>
+      <Dialog
+        open={closeModalOpen}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          Are you sure you want to quit the lesson?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            All current progress will be lost
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{display: "flex"}}>
+          <Button onClick={handleClose} className="me-auto">Cancel</Button>
+          <Button color="error" onClick={() => navigate("/lessons")} autoFocus>
+            Continue exit
+          </Button>
+        </DialogActions>
+      </Dialog>
       {!finished ? (
         renderExercise(
           exercises[exerciseCrtNr],
