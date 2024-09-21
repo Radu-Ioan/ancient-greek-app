@@ -81,7 +81,8 @@ function LessonList() {
             fontWeight="bold"
             sx={{
               flexGrow: 1,
-            }}>
+            }}
+          >
             Lessons
           </Typography>
           <Button color="inherit" onClick={handleSignOut}>
@@ -98,7 +99,8 @@ function LessonList() {
             xs: "100%",
             sm: "400px",
             md: "600px",
-          }}>
+          }}
+        >
           {lessons.map((lesson: LessonHeader, idx: number) => (
             <div key={idx}>
               <Button
@@ -109,19 +111,19 @@ function LessonList() {
                   textTransform: "none",
                   textDecorationColor: "none",
                   fontSize: "1.3rem",
-                  justifyContent: "flex-start"
+                  justifyContent: "flex-start",
                 }}
                 onClick={(e) =>
                   handleClick(e, idx, anchorButtons, setAnchorButtons)
                 }
-                endIcon={
-                  lesson.completed ? (
-                    <CheckCircleOutlineTwoToneIcon color="success" />
-                  ) : (
-                    ""
-                  )
-                }>
-                {lesson.title}
+              >
+                <div className="d-flex flex-grow-1">
+                  <div>{lesson.title}</div>
+                  <div className="ms-auto"> 
+                    {lesson.completed ? (
+                    <CheckCircleOutlineTwoToneIcon color="success" />) : ( "" )}
+                  </div>
+                </div>
               </Button>
               <Popover
                 id={anchorButtons[idx] ? `simple-popover-${idx}` : undefined}
@@ -133,20 +135,20 @@ function LessonList() {
                 anchorOrigin={{
                   vertical: "center",
                   horizontal: "center",
-                }}>
+                }}
+              >
                 <Paper
                   sx={{
                     display: "flex",
                     justifyContent: "center",
                     flexDirection: "column",
                     padding: 2,
-                  }}>
+                  }}
+                >
                   <Typography fontSize="1.7rem" fontWeight="600">
                     {lesson.title}
                   </Typography>
-                  <Typography>
-                    {lesson.description}
-                  </Typography>
+                  <Typography>{lesson.description}</Typography>
                   <Link to={`${lesson.id}`} style={{ textDecoration: "none" }}>
                     <Button sx={{ textTransform: "none" }}>Start lesson</Button>
                   </Link>
