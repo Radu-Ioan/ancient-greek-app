@@ -15,14 +15,14 @@ import {
 
 import { useMediaQuery } from "@mui/material";
 
-import { BASE_URL, LESSON_PATH, LOGIN_URL, SIGN_UP_PATH } from "src/utils";
+import { SERVER_URL, LESSON_PATH, LOGIN_URL, SIGN_UP_PATH } from "src/utils";
 
 import "./SignIn.css";
 
 async function handleLogin(username: string, password: string) {
   try {
     // Perform the API request to obtain the JWT token
-    const response = await axios.post(`${BASE_URL}${LOGIN_URL}`, {
+    const response = await axios.post(`${SERVER_URL}${LOGIN_URL}`, {
       username,
       password,
     });

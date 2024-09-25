@@ -1,6 +1,6 @@
 import axios from "axios";
 import {
-  BASE_URL,
+  SERVER_URL,
   MEDIA_URL,
   correctAudioFilename,
   wrongAudioFilename,
@@ -22,7 +22,7 @@ export const audioCacheObjects: any = {};
 
 const fetchAudio = async (filename: string) => {
   if (!audioCacheObjects[filename]) {
-    const url = `${BASE_URL}${MEDIA_URL}${filename}`;
+    const url = `${SERVER_URL}${MEDIA_URL}${filename}`;
 
     try {
       const response = await axios.get(url, { responseType: "blob" });

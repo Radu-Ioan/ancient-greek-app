@@ -1,4 +1,13 @@
-import { Box, Stack, Button, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Paper,
+  Button,
+  Typography,
+  Card,
+  CardMedia,
+  Grid,
+} from "@mui/material";
 
 import {
   SubmissionAction,
@@ -10,6 +19,8 @@ import {
 import QueryStatement from "src/components/exercises/QueryStatement";
 
 import { useState } from "react";
+
+import "./ChooseRightAnswer.css";
 
 const palette = {
   active: "#ffe9ce",
@@ -39,11 +50,22 @@ interface ChooseRightAnswerProps {
   question: string;
   answerChoices: AnswerChoice[];
   multiChoice: boolean;
+  imageUrl?: string;
+  audioUrl?: string;
   notifySubmission: SubmissionAction;
 }
 
 function ChooseRightAnswer(props: ChooseRightAnswerProps) {
-  const { question, answerChoices, multiChoice, notifySubmission } = props;
+  const {
+    question,
+    answerChoices,
+    multiChoice,
+    imageUrl,
+    audioUrl,
+    notifySubmission,
+  } = props;
+
+  console.log("image:", imageUrl);
 
   const initialState = Array.from(
     { length: answerChoices.length },
@@ -109,16 +131,47 @@ function ChooseRightAnswer(props: ChooseRightAnswerProps) {
   }
 
   return (
-    <CenteringBox
+    <Box
       mx={1}
       mb={1}
+      className="d-flex flex-column flex-sm-row gap-3"
       sx={{
-        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-      }}>
-      <Stack mb={3}>
+      }}
+    >
+      <Stack mb={3} gap={2}>
         <QueryStatement text={question} />
+        {imageUrl && (
+          <Card
+            sx={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+              marginBottom: "12px",
+              width: {
+                xs: "100%",
+                // sm: 300,
+                // lg: 400,
+              },
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "200px", // Set a fixed height for the Card
+              overflow: "hidden", // Ensure anything overflowing is hidden
+            }}
+          >
+            <img
+              src={imageUrl}
+              alt="question image"
+              style={{
+                maxWidth: "100%",
+                maxHeight: "100%", // Image will fit within the card
+                objectFit: "contain", // Ensures the whole image is visible
+              }}
+            />
+          </Card>
+        )}
+        {/* {audioUrl &&} */}
       </Stack>
 
       <Stack
@@ -131,7 +184,12 @@ function ChooseRightAnswer(props: ChooseRightAnswerProps) {
             sm: 300,
             lg: 400,
           },
-        }}>
+          justifyContent: "start",
+          justifyItems: "start",
+          alignContent: "start",
+          
+        }}
+      >
         {answerChoices.map((answer: any, idx: number) => (
           <Button
             key={idx}
@@ -180,7 +238,8 @@ function ChooseRightAnswer(props: ChooseRightAnswerProps) {
             }}
             disableTouchRipple
             variant="outlined"
-            onClick={() => handleSelect(idx)}>
+            onClick={() => handleSelect(idx)}
+          >
             <Typography
               noWrap={false}
               align="center"
@@ -190,7 +249,8 @@ function ChooseRightAnswer(props: ChooseRightAnswerProps) {
                 wordBreak: "break-word",
                 hyphens: "auto",
                 textAlign: "center",
-              }}>
+              }}
+            >
               {answer.text}
             </Typography>
           </Button>
@@ -207,7 +267,8 @@ function ChooseRightAnswer(props: ChooseRightAnswerProps) {
                 backgroundColor: bgHoverSubmitBtn,
               },
             }}
-            onClick={handleSubmit}>
+            onClick={handleSubmit}
+          >
             Submit
           </Button>
         )}
@@ -218,12 +279,13 @@ function ChooseRightAnswer(props: ChooseRightAnswerProps) {
               fontSize: "1.2rem",
               color: allAnswersCorrect ? "green" : "red",
               textAlign: "center",
-            }}>
+            }}
+          >
             {allAnswersCorrect ? "Very well" : "Try again next time!"}
           </Box>
         )}
       </Stack>
-    </CenteringBox>
+    </Box>
   );
 }
 

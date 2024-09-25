@@ -22,7 +22,12 @@ import {
 import ScoreResult from "./components/ScoreResult";
 
 import NavigateNext from "@mui/icons-material/NavigateNext";
-import { CenteringBox, LESSON_URL, SIGN_IN_PATH } from "src/utils";
+import {
+  CenteringBox,
+  LESSON_URL,
+  SIGN_IN_PATH,
+  BASE_SERVER_URL,
+} from "src/utils";
 import {
   playCorrectAudio,
   playWrongAudio,
@@ -74,6 +79,16 @@ function renderExercise(
       <AnswerExercise
         question={exerciseObj.question}
         rightAnswer={exerciseObj.answer}
+        imageUrl={
+          exerciseObj.image
+            ? `${BASE_SERVER_URL}${exerciseObj.image}`
+            : undefined
+        }
+        audioUrl={
+          exerciseObj.image
+            ? `${BASE_SERVER_URL}${exerciseObj.image}`
+            : undefined
+        }
         notifySubmission={notifySubmission}
         key={idx}
       />
@@ -84,6 +99,16 @@ function renderExercise(
         question={exerciseObj.question}
         answerChoices={exerciseObj.answer_choices}
         multiChoice={exerciseObj.multi_choice}
+        imageUrl={
+          exerciseObj.image
+            ? `${BASE_SERVER_URL}${exerciseObj.image}`
+            : undefined
+        }
+        audioUrl={
+          exerciseObj.image
+            ? `${BASE_SERVER_URL}${exerciseObj.image}`
+            : undefined
+        }
         notifySubmission={notifySubmission}
         key={idx}
       />
@@ -175,10 +200,10 @@ export default function LessonPage() {
     setcloseModalOpen(false);
   };
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
-    <Stack spacing={2} mb={1} useFlexGap>
+    <Stack spacing={2} mb={1} useFlexGap style={{ height: "100vh" }}>
       <div className="d-flex justify-content-center align-items-center">
         <LinearProgress
           value={(exerciseCrtNr / exercises.length) * 100}
@@ -197,19 +222,6 @@ export default function LessonPage() {
             },
           }}
         ></LinearProgress>
-        <Button
-          type="button"
-          variant="contained"
-          style={{
-            position: "absolute",
-            bottom: "4px",
-            right: "4px",
-            backgroundColor: "#942906",
-          }}
-          onClick={handleExitBtn}
-        >
-          Exit
-        </Button>
       </div>
       <Dialog
         open={closeModalOpen}
@@ -225,38 +237,63 @@ export default function LessonPage() {
             All current progress will be lost
           </DialogContentText>
         </DialogContent>
-        <DialogActions sx={{display: "flex"}}>
-          <Button onClick={handleClose} className="me-auto">Cancel</Button>
+        <DialogActions sx={{ display: "flex" }}>
+          <Button onClick={handleClose} className="me-auto">
+            Cancel
+          </Button>
           <Button color="error" onClick={() => navigate("/lessons")} autoFocus>
             Continue exit
           </Button>
         </DialogActions>
       </Dialog>
       {!finished ? (
-        renderExercise(
-          exercises[exerciseCrtNr],
-          (allGood: boolean) =>
-            handleSubmission(allGood, exercises[exerciseCrtNr].scored),
-          exerciseCrtNr
-        )
+        <div className="d-flex flex-column flex-grow-1">
+          {renderExercise(
+            exercises[exerciseCrtNr],
+            (allGood: boolean) =>
+              handleSubmission(allGood, exercises[exerciseCrtNr].scored),
+            exerciseCrtNr
+          )}
+          <div className="d-flex flex-column align-items-center flex-grow-1 mx-1">
+            {displayContinue && (
+              <Button
+                className="my-2"
+                sx={{
+                  width: {
+                    xs: "100%",
+                    sm: "50%",
+                    md: "200px",
+                  },
+                  fontSize: "1rem",
+                  textTransform: "none",
+                }}
+                variant="contained"
+                disableTouchRipple
+                endIcon={<NavigateNext />}
+                onClick={handleContinueClick}
+              >
+                Continue
+              </Button>
+            )}
+            <Button
+              type="button"
+              variant="contained"
+              className="mt-auto ms-auto mb-2"
+              style={{
+                backgroundColor: "#942906",
+              }}
+              onClick={handleExitBtn}
+            >
+              Exit
+            </Button>
+          </div>
+        </div>
       ) : (
         <ScoreResult
           scores={scores}
           fullScore={fullScore}
           backPath="/lessons"
         />
-      )}
-      {displayContinue && (
-        <CenteringBox>
-          <Button
-            variant="contained"
-            disableTouchRipple
-            endIcon={<NavigateNext />}
-            onClick={handleContinueClick}
-          >
-            Continue
-          </Button>
-        </CenteringBox>
       )}
     </Stack>
   );

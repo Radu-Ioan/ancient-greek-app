@@ -15,7 +15,8 @@ export const CenteringBox = styled(Box)({
 export const bgSubmitBtn = "#54078F"
 export const bgHoverSubmitBtn = "#622193"
 
-export const BASE_URL = "http://localhost:8000/"
+export const BASE_SERVER_URL = "http://localhost:8000"
+export const SERVER_URL = BASE_SERVER_URL + '/'
 export const LOGIN_URL = "account/api/token/"
 export const TOKEN_REFRESH_URL = "account/api/token/refresh/"
 export const REGISTER_URL = "account/api/signup/"

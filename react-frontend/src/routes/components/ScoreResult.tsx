@@ -1,3 +1,4 @@
+import { NavigateBefore } from "@mui/icons-material";
 import { Box, Button, Paper, Stack } from "@mui/material";
 import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 import { Link } from "react-router-dom";
@@ -63,9 +64,13 @@ export default function ScoreResult({ scores, fullScore, backPath }: any) {
           justifyContent: "center",
         }}
       >
-        <Button variant="outlined">
+        <Button
+          variant="outlined"
+          sx={{ textTransform: "none", fontSize: "1rem" }}
+          startIcon={<NavigateBefore />}
+        >
           <Link to={backPath} style={{ textDecoration: "none" }}>
-            Back to lesson list
+            Back to lessons list
           </Link>
         </Button>
       </Box>
@@ -73,4 +78,4 @@ export default function ScoreResult({ scores, fullScore, backPath }: any) {
   );
 }
 
-export { ScoreResult }
+export { ScoreResult };
