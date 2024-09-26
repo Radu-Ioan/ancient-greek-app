@@ -1,0 +1,8 @@
+{% extends "learning/custom_admin/tipexercise/edit.html" %}
+{% block navbar %}
+    {% with navbar_file="learning/custom_admin/components/exercises-navbar.html" %}
+        {% with page_header="Add tip exercise" %}
+            {% include navbar_file %}
+        {% endwith %}
+    {% endwith %}
+{% endblock %}

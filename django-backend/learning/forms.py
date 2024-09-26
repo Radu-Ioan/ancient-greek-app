@@ -3,7 +3,7 @@ from django.db.models import Max
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
 from .models import (
-    Lesson, Exercise, OrderWordsExercise, WordPiece,
+    Lesson, Exercise, OrderWordsExercise, TipText, WordPiece,
     JoinWordsExercise, JoinPair, CompleteExercise, SentencePiece,
     ChooseRightAnswer, AnswerChoice, AnswerExercise,
 )
@@ -234,6 +234,26 @@ class AnswerExerciseForm(forms.ModelForm):
             'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'
         })
         self.fields['answer'].widget.attrs.update({
+            'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'
+        })
+
+        set_initial_order_for_exercise_forms(self.fields, kwargs)
+
+
+class TipTextForm(forms.ModelForm):
+    class Meta:
+        model = TipText
+        fields = '__all__'
+        widgets = {
+            'image': CustomFileInput(),
+            'audio': CustomFileInput(),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['lesson'].widget.attrs.update({'class': f'{CSS_SELECT_STYLE}'})
+        self.fields['order'].widget.attrs.update({'class': f'{CSS_INPUT_STYLE}'})
+        self.fields['text'].widget.attrs.update({
             'class': f'{CONTROLLED_INPUT_CLASSNAME} {CSS_INPUT_STYLE}'
         })
 

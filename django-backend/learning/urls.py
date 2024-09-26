@@ -48,5 +48,13 @@ urlpatterns = [
     path('learning/admin/orderwordsexercise/<int:exercise_id>/change/',
          views.custom_orderwords_change,
          name=ORDER_WORDS_EXERCISE_CHANGE_VIEW),
+
+    path('learning/admin/lesson/<int:lesson_id>/tipexercise/add/',
+         views.custom_tip_text_add,
+         name=TIP_TEXT_EXERCISE_ADD_VIEW),
+    path('learning/admin/tipexercise/<int:exercise_id>/change',
+         views.custom_tip_text_change,
+         name=TIP_TEXT_EXERCISE_CHANGE_VIEW),
+
     path('', TemplateView.as_view(template_name="index.html")),
 ]

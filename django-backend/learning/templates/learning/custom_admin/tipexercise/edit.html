@@ -1,0 +1,12 @@
+{% extends "learning/custom_admin/pages/exercise_edit_template.html" %}
+{% load static %}
+{% block custom_head %}
+    <title>Edit tip exercise</title>
+    <script type="module" src="{% static 'learning/custom_admin/js/tipexercise_edit.js' %}"></script>
+{% endblock %}
+
+{% comment %}
+    leave empty this block as this exercise does not use extra child models
+{% endcomment %}
+
+{% block formset_management_form %}{% endblock formset_management_form %}

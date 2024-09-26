@@ -4,9 +4,11 @@ from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from .models import Lesson, Exercise, OrderWordsExercise, User, JoinWordsExercise, CompleteExercise, AnswerExercise, \
-    ChooseRightAnswer
-from .serializers import LessonSerializer, LessonDeepSerializer, LessonSoftSerializer
+from .models import (
+    Lesson, Exercise, OrderWordsExercise, TipText, User, JoinWordsExercise,
+    CompleteExercise, AnswerExercise, ChooseRightAnswer,
+)
+from .serializers import LessonDeepSerializer, LessonSoftSerializer
 
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
@@ -15,15 +17,18 @@ from django.urls import reverse
 from .forms import (
     LessonForm,
     JoinWordsExerciseForm, JoinPairFormset,
-    OrderWordsExerciseForm, WordPieceFormSet, CompleteExerciseForm, SentencePieceFormset, AnswerExerciseForm,
+    OrderWordsExerciseForm, WordPieceFormSet,
+    CompleteExerciseForm, SentencePieceFormset,
     ChooseRightAnswerForm, AnswerChoiceFormset,
+    AnswerExerciseForm,
+    TipTextForm,
 )
 
 from .constants import (
     LESSON_CHANGE_VIEW, ANSWER_EXERCISE_ADD_VIEW,
     CHOOSE_RIGHT_ANSWER_ADD_VIEW,
     COMPLETE_EXERCISE_ADD_VIEW, JOIN_WORDS_ADD_VIEW,
-    ORDER_WORDS_EXERCISE_ADD_VIEW
+    ORDER_WORDS_EXERCISE_ADD_VIEW, TIP_TEXT_EXERCISE_ADD_VIEW
 )
 
 import logging
@@ -111,7 +116,8 @@ add_view_descriptions = {
     COMPLETE_EXERCISE_ADD_VIEW: "Complete",
     CHOOSE_RIGHT_ANSWER_ADD_VIEW: "Choose right answer",
     JOIN_WORDS_ADD_VIEW: "Join words",
-    ORDER_WORDS_EXERCISE_ADD_VIEW: "Order words"
+    ORDER_WORDS_EXERCISE_ADD_VIEW: "Order words",
+    TIP_TEXT_EXERCISE_ADD_VIEW: "Tip text",
 }
 
 
@@ -390,3 +396,55 @@ def custom_orderwords_change(request, exercise_id):
         'wordpiece', "learning/custom_admin/orderwordsexercise/change.html"
     )
 
+
+@admin_authorization
+def custom_tip_text_add(request, lesson_id):
+    lesson = get_object_or_404(Lesson, pk=lesson_id)
+
+    if request.method == 'POST':
+        form = TipTextForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            exercise = TipText.objects.create(**form.cleaned_data)
+            TipText.objects.move(exercise, form.cleaned_data['order'])
+
+            # exercise = form.save()
+            lesson_id = exercise.lesson.pk
+            next_url = reverse(LESSON_CHANGE_VIEW, args=(lesson_id,))
+            return redirect(next_url)
+    else:
+        form = TipTextForm(initial={'lesson': lesson})
+
+    context = {
+        'form': form,
+        'lesson_id': lesson_id
+    }
+
+    return render(request, "learning/custom_admin/tipexercise/add.html", context)
+
+
+@admin_authorization
+def custom_tip_text_change(request, exercise_id):
+    exercise = get_object_or_404(TipText, pk=exercise_id)
+
+    if request.method == 'POST':
+        current_order = exercise.order
+        form = TipTextForm(request.POST, request.FILES, instance=exercise)
+
+        if form.is_valid():
+            exercise.order = current_order
+            Exercise.objects.move(exercise, form.cleaned_data['order'])
+            exercise = form.save()
+
+            lesson_id = exercise.lesson.pk
+            next_url = reverse(LESSON_CHANGE_VIEW, args=(lesson_id,))
+            return redirect(next_url)
+    else:
+        form = TipTextForm(instance=exercise)
+
+    context = {
+        'form': form,
+        'lesson_id': str(exercise.lesson.pk),
+    }
+
+    return render(request, "learning/custom_admin/tipexercise/change.html", context)

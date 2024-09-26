@@ -8,7 +8,8 @@ from .constants import (
     COMPLETE_EXERCISE_CHANGE_VIEW,
     CHOOSE_RIGHT_ANSWER_CHANGE_VIEW,
     JOIN_WORDS_CHANGE_VIEW,
-    ORDER_WORDS_EXERCISE_CHANGE_VIEW
+    ORDER_WORDS_EXERCISE_CHANGE_VIEW,
+    TIP_TEXT_EXERCISE_CHANGE_VIEW
 )
 
 
@@ -187,6 +188,7 @@ class Exercise(models.Model):
             CompleteExercise.__name__: COMPLETE_EXERCISE_CHANGE_VIEW,
             JoinWordsExercise.__name__: JOIN_WORDS_CHANGE_VIEW,
             OrderWordsExercise.__name__: ORDER_WORDS_EXERCISE_CHANGE_VIEW,
+            TipText.__name__: TIP_TEXT_EXERCISE_CHANGE_VIEW,
         }
         view_name = view_names_map.get(self.type, None)
 
@@ -203,6 +205,7 @@ class Exercise(models.Model):
             CompleteExercise.__name__: CompleteExercise,
             JoinWordsExercise.__name__: JoinWordsExercise,
             OrderWordsExercise.__name__: OrderWordsExercise,
+            TipText.__name__: TipText,
         }
 
         # Get the model class based on the type
@@ -302,6 +305,11 @@ class TipText(Exercise):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.scored = False
+
+    def __str__(self):
+        if len(self.text) > 50:
+            return self.text[:50] + " ..."
+        return self.text
 
 
 class WordFlashcard(Exercise):
