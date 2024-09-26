@@ -17,6 +17,7 @@ import {
 } from "src/utils";
 
 import QueryStatement from "src/components/exercises/QueryStatement";
+import ImageBox from "src/components/exercises/ImageBox";
 
 import { useState } from "react";
 
@@ -142,35 +143,7 @@ function ChooseRightAnswer(props: ChooseRightAnswerProps) {
     >
       <Stack mb={3} gap={2}>
         <QueryStatement text={question} />
-        {imageUrl && (
-          <Card
-            sx={{
-              maxWidth: "100%",
-              maxHeight: "100%",
-              marginBottom: "12px",
-              width: {
-                xs: "100%",
-                // sm: 300,
-                // lg: 400,
-              },
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "200px", // Set a fixed height for the Card
-              overflow: "hidden", // Ensure anything overflowing is hidden
-            }}
-          >
-            <img
-              src={imageUrl}
-              alt="question image"
-              style={{
-                maxWidth: "100%",
-                maxHeight: "100%", // Image will fit within the card
-                objectFit: "contain", // Ensures the whole image is visible
-              }}
-            />
-          </Card>
-        )}
+        {imageUrl && <ImageBox imageUrl={imageUrl}/>}
         {/* {audioUrl &&} */}
       </Stack>
 
@@ -187,7 +160,6 @@ function ChooseRightAnswer(props: ChooseRightAnswerProps) {
           justifyContent: "start",
           justifyItems: "start",
           alignContent: "start",
-          
         }}
       >
         {answerChoices.map((answer: any, idx: number) => (

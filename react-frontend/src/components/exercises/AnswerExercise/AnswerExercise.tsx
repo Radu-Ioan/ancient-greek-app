@@ -1,4 +1,9 @@
-import { Button, Stack, Container, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  Stack,
+  Container,
+  Typography,
+} from "@mui/material";
 import { SubmissionAction } from "src/utils";
 import QueryStatement from "src/components/exercises/QueryStatement";
 import { useState, useEffect } from "react";
@@ -14,6 +19,7 @@ import { bgSubmitBtn, bgHoverSubmitBtn } from "src/utils";
 
 import "./AnswerExercise.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import ImageBox from "src/components/exercises/ImageBox";
 
 const palette = {
   border: {
@@ -31,6 +37,8 @@ const palette = {
 interface AnswerExerciseProps {
   question: string;
   rightAnswer: string;
+  imageUrl?: string;
+  audioUrl?: string;
   notifySubmission: SubmissionAction;
 }
 
@@ -38,7 +46,9 @@ function renderCorrectAnswer(answer: string) {
   return (
     <>
       <label>Correct answer:</label>
-      <Typography sx={{fontWeight: "bold", fontSize: "1.2rem"}}>{answer}</Typography>
+      <Typography sx={{ fontWeight: "bold", fontSize: "1.2rem" }}>
+        {answer}
+      </Typography>
     </>
   );
 }
@@ -60,7 +70,7 @@ function handleSubmit(
   }
 
   console.log("user answer:", textField.value);
-  
+
   setSubmitted(() => true);
   const isCorrect: boolean = validate(correctAnswer, textField.value);
   setAnsweredCorrect(() => isCorrect);
@@ -68,7 +78,8 @@ function handleSubmit(
 }
 
 function AnswerExercise(props: AnswerExerciseProps) {
-  const { question, rightAnswer, notifySubmission }: any = props;
+  const { question, rightAnswer, imageUrl, audioUrl, notifySubmission }: any =
+    props;
   console.log("answer props:", props);
 
   const [submitted, setSubmitted] = useState(false);
@@ -106,9 +117,11 @@ function AnswerExercise(props: AnswerExerciseProps) {
         justifyContent: "center",
         alignItems: "center",
         gap: 1,
-      }}>
+      }}
+    >
       <Stack mb={3}>
         <QueryStatement text={question} />
+        {imageUrl && <ImageBox imageUrl={imageUrl}/>}
       </Stack>
       <input
         id="id_answer"
@@ -116,6 +129,7 @@ function AnswerExercise(props: AnswerExerciseProps) {
         name="answer"
         disabled={submitted}
         className="form-control text-center mui-font container"
+        autoComplete="false"
         style={{
           width: isSmallScreen ? "100%" : "500px",
           fontSize: "1.3rem",
@@ -129,7 +143,8 @@ function AnswerExercise(props: AnswerExerciseProps) {
               ? palette.background.disabled.success
               : palette.background.disabled.error
             : "",
-        }}></input>
+        }}
+      ></input>
       {!submitted && greekOn && <GreekKeyboard />}
       {!submitted && (
         <FormControlLabel
@@ -167,20 +182,22 @@ function AnswerExercise(props: AnswerExerciseProps) {
               setAnsweredCorrect,
               notifySubmission
             )
-          }>
+          }
+        >
           Submit
         </Button>
       )}
 
-      {(answeredCorrect !== null) && (
+      {answeredCorrect !== null && (
         <Typography
           sx={{
             fontSize: "1.3rem",
             paddingX: "20px",
             paddingY: "10px",
             color: answeredCorrect ? "green" : "red",
-            textAlign: "center"
-          }}>
+            textAlign: "center",
+          }}
+        >
           {answeredCorrect ? "Very well" : "Try again next time"}
         </Typography>
       )}
