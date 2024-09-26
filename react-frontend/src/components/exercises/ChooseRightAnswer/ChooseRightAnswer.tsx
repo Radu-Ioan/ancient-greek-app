@@ -1,17 +1,12 @@
 import {
   Box,
-  Stack,
-  Paper,
+  Stack,  
   Button,
   Typography,
-  Card,
-  CardMedia,
-  Grid,
 } from "@mui/material";
 
 import {
   SubmissionAction,
-  CenteringBox,
   bgSubmitBtn,
   bgHoverSubmitBtn,
 } from "src/utils";
@@ -65,8 +60,6 @@ function ChooseRightAnswer(props: ChooseRightAnswerProps) {
     audioUrl,
     notifySubmission,
   } = props;
-
-  console.log("image:", imageUrl);
 
   const initialState = Array.from(
     { length: answerChoices.length },
@@ -131,6 +124,47 @@ function ChooseRightAnswer(props: ChooseRightAnswerProps) {
     notifySubmission(allCorrect);
   }
 
+  function getAnswerChoiceBtnBgColor(idx: number) {
+    return submitted
+      ? answerButtons[idx].selected
+        ? answerChoices[idx].isCorrect
+          ? palette.background.correctChoice
+          : palette.background.wrongChoice
+        : ""
+      : answerButtons[idx].selected
+      ? palette.background.active
+      : "";
+  }
+
+  function getAnswerChoiceBtnHoverColors(idx: number) {
+    return {
+      backgroundColor: !submitted
+        ? answerButtons[idx].selected
+          ? palette.background.active
+          : ""
+        : "",
+    };
+  }
+
+  function getAnswerChoiceBtnDisabledColors(idx: number) {
+    return {
+      color: answerButtons[idx].selected
+        ? answerChoices[idx].isCorrect
+          ? palette.disabled.correctChoice
+          : palette.disabled.wrongChoice
+        : palette.disabled.unselected,
+      borderColor: submitted
+        ? answerChoices[idx].isCorrect
+          ? palette.border.correctAnswer
+          : ""
+        : "",
+      borderWidth:
+        !answerButtons[idx].selected && answerChoices[idx].isCorrect
+          ? "5px"
+          : "",
+    };
+  }
+
   return (
     <Box
       mx={1}
@@ -143,7 +177,7 @@ function ChooseRightAnswer(props: ChooseRightAnswerProps) {
     >
       <Stack mb={3} gap={2}>
         <QueryStatement text={question} />
-        {imageUrl && <ImageBox imageUrl={imageUrl}/>}
+        {imageUrl && <ImageBox imageUrl={imageUrl} />}
         {/* {audioUrl &&} */}
       </Stack>
 
@@ -170,38 +204,9 @@ function ChooseRightAnswer(props: ChooseRightAnswerProps) {
               textTransform: "none",
               paddingY: 2,
               fontSize: "1.4rem",
-              backgroundColor: submitted
-                ? answerButtons[idx].selected
-                  ? answerChoices[idx].isCorrect
-                    ? palette.background.correctChoice
-                    : palette.background.wrongChoice
-                  : ""
-                : answerButtons[idx].selected
-                ? palette.background.active
-                : "",
-              "&:hover": {
-                backgroundColor: !submitted
-                  ? answerButtons[idx].selected
-                    ? palette.background.active
-                    : ""
-                  : "",
-              },
-              "&.Mui-disabled": {
-                color: answerButtons[idx].selected
-                  ? answerChoices[idx].isCorrect
-                    ? palette.disabled.correctChoice
-                    : palette.disabled.wrongChoice
-                  : palette.disabled.unselected,
-                borderColor: submitted
-                  ? answerChoices[idx].isCorrect
-                    ? palette.border.correctAnswer
-                    : ""
-                  : "",
-                borderWidth:
-                  !answerButtons[idx].selected && answerChoices[idx].isCorrect
-                    ? "5px"
-                    : "",
-              },
+              backgroundColor: getAnswerChoiceBtnBgColor(idx),
+              "&:hover": getAnswerChoiceBtnHoverColors(idx),
+              "&.Mui-disabled": getAnswerChoiceBtnDisabledColors(idx),
               color: answerButtons[idx].selected ? palette.active : "",
               transition: "0.05s",
               display: "flex",
