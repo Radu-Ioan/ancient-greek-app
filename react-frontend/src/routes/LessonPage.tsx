@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useLoaderData, redirect, Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useLoaderData, redirect, useNavigate } from "react-router-dom";
 import axios from "src/axios-config";
 
 import OrderWordsExercise from "src/components/exercises/OrderWordsExercise";
@@ -10,20 +10,13 @@ import ChooseRightAnswer from "src/components/exercises/ChooseRightAnswer";
 
 import {
   Button,
-  LinearProgress,
   Stack,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
 } from "@mui/material";
 
 import ScoreResult from "./components/ScoreResult";
 
 import NavigateNext from "@mui/icons-material/NavigateNext";
 import {
-  CenteringBox,
   LESSON_URL,
   SIGN_IN_PATH,
   BASE_SERVER_URL,
@@ -33,6 +26,8 @@ import {
   playWrongAudio,
   playLessonEndAudio,
 } from "src/utils/media-service";
+import ProgressLine from "./components/ProgressLine";
+import CloseModal from "./components/CloseModal";
 
 const exerciseTypes = {
   answer: "AnswerExercise",
@@ -204,48 +199,18 @@ export default function LessonPage() {
 
   return (
     <Stack spacing={2} mb={1} useFlexGap style={{ height: "100vh" }}>
-      <div className="d-flex justify-content-center align-items-center">
-        <LinearProgress
-          value={(exerciseCrtNr / exercises.length) * 100}
-          variant="determinate"
-          className="mx-2 mt-1"
-          sx={{
-            height: "10px",
-            borderRadius: "2px",
-            width: {
-              xs: "80%",
-              sm: "50%",
-            },
-            marginTop: {
-              xs: "20px",
-              sm: "5px",
-            },
-          }}
-        ></LinearProgress>
-      </div>
-      <Dialog
-        open={closeModalOpen}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          Are you sure you want to quit the lesson?
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            All current progress will be lost
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions sx={{ display: "flex" }}>
-          <Button onClick={handleClose} className="me-auto">
-            Cancel
-          </Button>
-          <Button color="error" onClick={() => navigate("/lessons")} autoFocus>
-            Continue exit
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <ProgressLine
+        exerciseCrtNr={exerciseCrtNr}
+        exercises={exercises}
+        className="mx-2 mt-3"
+      ></ProgressLine>
+
+      <CloseModal
+        closeModalOpen={closeModalOpen}
+        handleClose={handleClose}
+        exitAction={() => navigate("/lessons")}
+      ></CloseModal>
+
       {!finished ? (
         <div className="d-flex flex-column flex-grow-1">
           {renderExercise(
