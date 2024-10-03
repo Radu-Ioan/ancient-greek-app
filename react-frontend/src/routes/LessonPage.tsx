@@ -65,6 +65,16 @@ function renderExercise(
       <CompleteExercise
         query={exerciseObj.query}
         textItems={exerciseObj.text_items}
+        imageUrl={
+          exerciseObj.image
+            ? `${BASE_SERVER_URL}${exerciseObj.image}`
+            : undefined
+        }
+        audioUrl={
+          exerciseObj.audio
+            ? `${BASE_SERVER_URL}${exerciseObj.audio}`
+            : undefined
+        }
         notifySubmission={notifySubmission}
         key={idx}
       />
@@ -80,8 +90,8 @@ function renderExercise(
             : undefined
         }
         audioUrl={
-          exerciseObj.image
-            ? `${BASE_SERVER_URL}${exerciseObj.image}`
+          exerciseObj.audio
+            ? `${BASE_SERVER_URL}${exerciseObj.audio}`
             : undefined
         }
         notifySubmission={notifySubmission}
@@ -100,8 +110,8 @@ function renderExercise(
             : undefined
         }
         audioUrl={
-          exerciseObj.image
-            ? `${BASE_SERVER_URL}${exerciseObj.image}`
+          exerciseObj.audio
+            ? `${BASE_SERVER_URL}${exerciseObj.audio}`
             : undefined
         }
         notifySubmission={notifySubmission}
@@ -199,11 +209,13 @@ export default function LessonPage() {
 
   return (
     <Stack spacing={2} mb={1} useFlexGap style={{ height: "100vh" }}>
-      <ProgressLine
-        exerciseCrtNr={exerciseCrtNr}
-        exercises={exercises}
-        className="mx-2 mt-3"
-      ></ProgressLine>
+      <div className="mt-2">
+        <ProgressLine
+          exerciseCrtNr={exerciseCrtNr}
+          exercises={exercises}
+          className="mx-2 mt-3"
+        ></ProgressLine>
+      </div>
 
       <CloseModal
         closeModalOpen={closeModalOpen}
@@ -219,7 +231,7 @@ export default function LessonPage() {
               handleSubmission(allGood, exercises[exerciseCrtNr].scored),
             exerciseCrtNr
           )}
-          <div className="d-flex flex-column align-items-center flex-grow-1 mx-1">
+          <div className="d-flex flex-column align-items-center flex-grow-1 mx-1 mt-2">
             {displayContinue && (
               <Button
                 className="my-2"

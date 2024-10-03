@@ -169,16 +169,17 @@ function ChooseRightAnswer(props: ChooseRightAnswerProps) {
     <Box
       mx={1}
       mb={1}
-      className="d-flex flex-column flex-sm-row gap-3"
-      sx={{
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+      className="d-flex flex-column flex-sm-row gap-3 justify-content-sm-center align-items-sm-center"
     >
       <Stack mb={3} gap={2}>
         <QueryStatement text={question} />
         {imageUrl && <ImageBox imageUrl={imageUrl} />}
-        {/* {audioUrl &&} */}
+        {audioUrl && <audio controls className="rounded p-2 w-100" autoPlay>
+          <source src={audioUrl} type="audio/mp3" />
+          <source src={audioUrl} type="audio/wav" />
+          <source src={audioUrl} type="audio/ogg" />
+          Your browser does not support the audio element.
+        </audio>}
       </Stack>
 
       <Stack

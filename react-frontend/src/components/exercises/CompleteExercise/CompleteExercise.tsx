@@ -10,6 +10,7 @@ import { Button, Container, Paper, Typography } from "@mui/material";
 import { bgSubmitBtn, bgHoverSubmitBtn } from "src/utils";
 
 import QueryStatement from "src/components/exercises/QueryStatement";
+import ImageBox from "src/components/exercises/ImageBox";
 
 import "./CompleteExercise.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -22,6 +23,8 @@ interface CompleteExerciseItem {
 interface CompleteExerciseProps {
   query: string;
   textItems: CompleteExerciseItem[];
+  imageUrl?: string;
+  audioUrl?: string;
   notifySubmission: SubmissionAction;
 }
 
@@ -114,7 +117,7 @@ function getUserInputs(correctAnswers: any) {
 }
 
 function CompleteExercise(props: CompleteExerciseProps) {
-  const { query, textItems, notifySubmission } = props;
+  const { query, textItems, imageUrl, audioUrl, notifySubmission } = props;
   const [result, setResult] = useState<any>(null);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [greekOn, setGreekOn] = useState<boolean>(true);
@@ -166,9 +169,17 @@ function CompleteExercise(props: CompleteExerciseProps) {
 
   return (
     <div className="container-fluid d-flex flex-column gap-2">
-      <CenteringBox>
+      <div className="d-flex flex-column align-items-center">
         <QueryStatement text={query} />
-      </CenteringBox>
+        {imageUrl && <ImageBox imageUrl={imageUrl} />}
+        {audioUrl && <audio controls className="rounded p-2" autoPlay>
+          <source src={audioUrl} type="audio/mp3" />
+          <source src={audioUrl} type="audio/wav" />
+          <source src={audioUrl} type="audio/ogg" />
+          Your browser does not support the audio element.
+        </audio>}
+      </div>
+
       <div className="d-flex flex-wrap justify-content-center">
         {textItems.map((item, index) => (
           <div key={index} className="m-2">
@@ -185,6 +196,7 @@ function CompleteExercise(props: CompleteExerciseProps) {
                 name={`input_${index}`}
                 id={`id_input_${index}`}
                 disabled={submitted}
+                autoComplete="false"
               />
             ) : (
               <p className="lead mb-2 mui-font">{item.text}</p>
@@ -192,7 +204,7 @@ function CompleteExercise(props: CompleteExerciseProps) {
           </div>
         ))}
       </div>
-      <div className="d-flex flex-column align-items-center gap-2">
+      <div className="d-flex flex-column align-items-sm-center gap-2">
         {!submitted && greekOn && <GreekKeyboard />}
         {!submitted && (
           <FormControlLabel

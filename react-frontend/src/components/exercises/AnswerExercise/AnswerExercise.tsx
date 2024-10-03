@@ -114,14 +114,22 @@ function AnswerExercise(props: AnswerExerciseProps) {
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
+        alignItems: {
+          xs: "start",
+          sm: "center"
+        },
         gap: 1,
       }}
     >
       <Stack mb={3}>
         <QueryStatement text={question} />
         {imageUrl && <ImageBox imageUrl={imageUrl}/>}
+        {audioUrl && <audio controls className="rounded p-2" autoPlay>
+          <source src={audioUrl} type="audio/mp3" />
+          <source src={audioUrl} type="audio/wav" />
+          <source src={audioUrl} type="audio/ogg" />
+          Your browser does not support the audio element.
+        </audio>}
       </Stack>
       <input
         id="id_answer"
