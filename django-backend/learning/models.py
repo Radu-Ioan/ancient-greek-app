@@ -256,7 +256,7 @@ class JoinPair(models.Model):
 
 
 class CompleteExercise(Exercise):
-    query = models.CharField(max_length=60, default="Complete the sentence")
+    query = models.CharField(max_length=120, default="Complete the sentence")
 
     def __str__(self):
         return " ".join(str(piece) for piece in self.sentencepiece_set.all())
