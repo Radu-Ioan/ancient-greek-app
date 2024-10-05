@@ -222,6 +222,9 @@ function LessonList() {
           showFirstButton
           showLastButton
           onChange={handlePageChange}
+          sx={{
+            marginBottom: "20px",
+          }}
         />
       </Container>
     </>
