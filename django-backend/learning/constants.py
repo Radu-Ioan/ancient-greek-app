@@ -12,3 +12,6 @@ ORDER_WORDS_EXERCISE_ADD_VIEW = "custom_orderwords_add"
 ORDER_WORDS_EXERCISE_CHANGE_VIEW = "custom_orderwords_change"
 TIP_TEXT_EXERCISE_ADD_VIEW = "custom_tip_text_add"
 TIP_TEXT_EXERCISE_CHANGE_VIEW = "custom_tip_text_change"
+
+
+PAGE_SIZE = 10

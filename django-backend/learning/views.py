@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
 
 from .models import (
     Lesson, Exercise, OrderWordsExercise, TipText, User, JoinWordsExercise,
@@ -28,7 +29,8 @@ from .constants import (
     LESSON_CHANGE_VIEW, ANSWER_EXERCISE_ADD_VIEW,
     CHOOSE_RIGHT_ANSWER_ADD_VIEW,
     COMPLETE_EXERCISE_ADD_VIEW, JOIN_WORDS_ADD_VIEW,
-    ORDER_WORDS_EXERCISE_ADD_VIEW, TIP_TEXT_EXERCISE_ADD_VIEW
+    ORDER_WORDS_EXERCISE_ADD_VIEW, TIP_TEXT_EXERCISE_ADD_VIEW,
+    PAGE_SIZE,
 )
 
 import logging
@@ -41,13 +43,23 @@ logger = logging.getLogger(__name__)
 @permission_classes([IsAuthenticated])
 def lesson_list(request):
     all_lessons = Lesson.objects.all()
+    
+    paginator = PageNumberPagination()
+    paginator.page_size = PAGE_SIZE
+    paginated_lessons = paginator.paginate_queryset(all_lessons, request)
+
     context = {'user': request.user}
-    all_lessons_serializer = LessonSoftSerializer(all_lessons, many=True,
+    all_lessons_serializer = LessonSoftSerializer(paginated_lessons, many=True,
                                                   context=context)
 
-    response_data = all_lessons_serializer.data
+    response_data = {
+        'lessons': all_lessons_serializer.data,
+        'count': paginator.page.paginator.count,
+        'current_page': paginator.page.number,
+        'total_pages': paginator.page.paginator.num_pages
+    }
 
-    return Response(response_data)
+    return paginator.get_paginated_response(response_data)
 
 
 @api_view(['GET', 'POST'])

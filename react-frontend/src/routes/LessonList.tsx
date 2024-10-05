@@ -7,11 +7,19 @@ import {
   Typography,
   AppBar,
   Toolbar,
+  Pagination,
 } from "@mui/material";
 import CheckCircleOutlineTwoToneIcon from "@mui/icons-material/CheckCircleOutlineTwoTone";
 
 import axios from "src/axios-config";
-import { useLoaderData, redirect, Link, useNavigate } from "react-router-dom";
+import {
+  useLoaderData,
+  redirect,
+  Link,
+  useNavigate,
+  useFetcher,
+  useLocation,
+} from "react-router-dom";
 import { useState } from "react";
 import { LESSON_URL, SIGN_IN_PATH } from "src/utils";
 
@@ -22,15 +30,39 @@ interface LessonHeader {
   id: string | number;
 }
 
-export async function loader() {
+export async function loader(args: { request: Request }) {
+  const request = args.request;
+  const url = new URL(request.url);
+  const page = url.searchParams.get("page") || 1;
+
   if (localStorage.getItem("access") == null) {
     return redirect(SIGN_IN_PATH);
   }
 
-  const response = await axios.get(`${LESSON_URL}`);
-  console.log("response:", response);
+  let response = null;
 
-  return response.data;
+  try {
+    response = await axios.get(`${LESSON_URL}?page=${page}`);
+    console.log("Lessons list response:", response);
+  } catch (error) {
+    console.error("Error fetching lessons:", error);
+    return null;
+  }
+
+  const results = response.data.results;
+
+  return {
+    // paginated lessons
+    lessons: results.lessons,
+    // total number of lessons
+    totalLessons: response.data.count,
+    // link to next page, if available
+    next: response.data.next,
+    // link to previous page, if available
+    previous: response.data.previous,
+    totalPages: results.total_pages,
+    currentPage: results.current_page,
+  };
 }
 
 const handleClick = (
@@ -57,10 +89,11 @@ const handleClose = (
 };
 
 function LessonList() {
-  const lessons: LessonHeader[] = useLoaderData() as any[];
+  const apiData: any = useLoaderData();
+  // console.log("apiData:", apiData);
 
   const [anchorButtons, setAnchorButtons] = useState(
-    Array.from({ length: lessons.length }, () => null)
+    Array.from({ length: apiData.lessons.length }, () => null)
   );
 
   const navigate = useNavigate();
@@ -71,6 +104,29 @@ function LessonList() {
 
     navigate("/");
   }
+
+  const [lessons, setLessons] = useState(apiData.lessons);
+  // State for next page URL
+  const [page, setPage] = useState(apiData.currentPage);
+
+  const handlePageChange = async (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    // Update the current page
+    setPage(value);
+
+    // Update the URL with the new page number
+    navigate(`?page=${value}`);
+
+    try {
+      const response = await axios.get(`${LESSON_URL}?page=${value}`);
+
+      setLessons(response.data.results.lessons);
+    } catch (error) {
+      console.error("Error fetching lessons:", error);
+    }
+  };
 
   return (
     <>
@@ -119,9 +175,12 @@ function LessonList() {
               >
                 <div className="d-flex flex-grow-1">
                   <div>{lesson.title}</div>
-                  <div className="ms-auto"> 
+                  <div className="ms-auto">
                     {lesson.completed ? (
-                    <CheckCircleOutlineTwoToneIcon color="success" />) : ( "" )}
+                      <CheckCircleOutlineTwoToneIcon color="success" />
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </Button>
@@ -157,6 +216,13 @@ function LessonList() {
             </div>
           ))}
         </Stack>
+        <Pagination
+          count={apiData.totalPages}
+          page={page}
+          showFirstButton
+          showLastButton
+          onChange={handlePageChange}
+        />
       </Container>
     </>
   );
