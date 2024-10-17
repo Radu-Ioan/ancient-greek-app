@@ -28,11 +28,13 @@
 
                 <div class="d-flex flex-column flex-md-row gap-2">
                     <div class="flex-md-grow-1">
-                        {{ form.non_field_errors }}
+                        <div class="error-color">
+                            {{ form.non_field_errors }}
+                        </div>
 
                         {% for field in form.visible_fields %}
                             <h4>{{ field.label_tag }}</h4>
-                            <div style="color: red">
+                            <div class="error-color">
                                 {{ field.errors }}
                             </div>
                             {{ field }}
