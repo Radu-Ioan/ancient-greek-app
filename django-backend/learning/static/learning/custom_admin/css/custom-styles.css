@@ -6,3 +6,6 @@
     height: 20px;  /* Keep the aspect ratio */
     vertical-align: middle; /* Align it properly with text */
 }
+.error-color {
+    color: #ba2116;
+}

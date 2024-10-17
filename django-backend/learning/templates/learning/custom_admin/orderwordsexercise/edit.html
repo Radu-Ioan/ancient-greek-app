@@ -9,7 +9,9 @@
     <h4 class="mt-4">Word pieces:</h4>
     <div class="container d-flex justify-content-start">
         <fieldset class="flex-grow-1">
-            {{ formset.non_form_errors }}
+            <div class="error-color">
+                {{ formset.non_form_errors }}
+            </div>
             <table class="table">
                 <thead>
                 <tr>
@@ -23,7 +25,7 @@
                     <tr>
                         <td>{{ forloop.counter }}</td>
                         <td>
-                            {{ inline_form.content.errors }}
+                            <div class="error-color">{{ inline_form.content.errors }}</div>
                             {{ inline_form.content }}
                         </td>
                         <td>

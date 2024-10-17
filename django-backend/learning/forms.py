@@ -100,6 +100,24 @@ class WordPieceFormSet(inlineformset_factory(OrderWordsExercise, WordPiece,
                                     CSS_INPUT_STYLE])}
             )
 
+    def clean(self):
+        super().clean()
+
+        if any(self.errors):
+            print('Word piece formset errors:', self.errors)
+            return
+
+        count = 0
+
+        for form in self.forms:
+            # Ensure it's not a form marked for deletion
+            if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
+                count += 1
+
+        if count < 2:
+            # At least 2 forms are required
+            raise forms.ValidationError("At least 2 word pieces are required.")
+
 
 class OrderWordsExerciseForm(forms.ModelForm):
     class Meta:
@@ -129,6 +147,24 @@ class JoinPairFormset(inlineformset_factory(JoinWordsExercise, JoinPair,
             form.fields['second'].widget.attrs.update(
                 {'class': ' '.join([CONTROLLED_INPUT_CLASSNAME, CSS_INPUT_STYLE])}
             )
+
+    def clean(self):
+        super().clean()
+
+        if any(self.errors):
+            print('Join pair formset errors:', self.errors)
+            return
+
+        count = 0
+
+        for form in self.forms:
+            # Ensure it's not a form marked for deletion
+            if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
+                count += 1
+
+        if count < 2:
+            # At least 2 forms are required
+            raise forms.ValidationError("At least 2 join pairs are required.")
 
 
 class JoinWordsExerciseForm(forms.ModelForm):
@@ -161,6 +197,32 @@ class SentencePieceFormset(inlineformset_factory(CompleteExercise, SentencePiece
             form.fields['content'].widget.attrs.update(
                 {'class': ' '.join([CONTROLLED_INPUT_CLASSNAME, CSS_INPUT_STYLE])}
             )
+    
+    def clean(self):
+        super().clean()
+
+        if any(self.errors):
+            print('Sentence piece formset errors:', self.errors)
+            return
+
+        count = 0
+
+        has_hidden_piece = False
+
+        for form in self.forms:
+            # Ensure it's not a form marked for deletion
+            if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
+                count += 1
+
+                if form.cleaned_data.get('hidden'):
+                    has_hidden_piece = True
+
+        if count < 1:
+            # At least 1 form is required
+            raise forms.ValidationError("At least one sentence piece is required.")
+
+        if not has_hidden_piece:
+            raise forms.ValidationError("At least one sentence piece must be hidden.")        
 
 
 class CompleteExerciseForm(forms.ModelForm):
@@ -193,6 +255,32 @@ class AnswerChoiceFormset(inlineformset_factory(ChooseRightAnswer, AnswerChoice,
             form.fields['content'].widget.attrs.update(
                 {'class': ' '.join([CONTROLLED_INPUT_CLASSNAME, CSS_INPUT_STYLE])}
             )
+
+    def clean(self):
+        super().clean()
+
+        if any(self.errors):
+            print('Answer choice formset errors:', self.errors)
+            return
+
+        count = 0
+
+        has_correct_answer = False
+
+        for form in self.forms:
+            # Ensure it's not a form marked for deletion
+            if form.cleaned_data and not form.cleaned_data.get('DELETE', False):
+                count += 1
+
+                if form.cleaned_data.get('is_correct'):
+                    has_correct_answer = True
+
+        if count < 2:
+            # At least 2 forms are required
+            raise forms.ValidationError("At least 2 answer choices are required.")
+
+        if not has_correct_answer:
+            raise forms.ValidationError("At least one answer must be correct.")
 
 
 class ChooseRightAnswerForm(forms.ModelForm):

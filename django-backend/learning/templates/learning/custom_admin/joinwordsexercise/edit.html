@@ -9,7 +9,9 @@
     <h4 class="mt-4">Join pairs:</h4>
     <div class="container d-flex justify-content-start">
         <fieldset class="flex-grow-1">
-            {{ formset.non_form_errors }}
+            <div class="error-color">
+                {{ formset.non_form_errors }}
+            </div>
             <table class="table">
                 <thead>
                 <tr>
@@ -24,11 +26,11 @@
                     <tr>
                         <td>{{ forloop.counter }}</td>
                         <td>
-                            {{ inline_form.first.errors }}
+                            <div class="error-color">{{ inline_form.first.errors }}</div>
                             {{ inline_form.first }}
                         </td>
                         <td>
-                            {{ inline_form.second.errors }}
+                            <div class="error-color">{{ inline_form.second.errors }}</div>
                             {{ inline_form.second }}
                         </td>
                         <td>
