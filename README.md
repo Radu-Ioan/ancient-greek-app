@@ -1,14 +1,21 @@
+# Description
+
+Visit https://raduz.pythonanywhere.com to see a demo launch of the
+application.
+
 The project aims to support the persons who study ancient greek to learn 
 in a game-based fashion.
 
 The program provides various types of exercises grouped in lessons.
 
-
 The administrator is the one who creates and fills the lessons with
 exercises using his available interface.
 
+Currently, the database is rather filled with dummy data, altough it contains
+real words, and it's not yet suitable for a real case learning, but you can use
+the program easily.
 
-# How to run the app
+# How to run the app locally
 
 Make sure you have installed python 3 on your computer.  
 After cloning the repository, navigate in _django-backend/_ using the terminal.
