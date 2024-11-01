@@ -1,7 +1,8 @@
 import axios from "axios";
+import { BASE_SERVER_URL } from "src/utils/utils";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8000/",
+  baseURL: BASE_SERVER_URL,
 });
 
 instance.interceptors.request.use(
