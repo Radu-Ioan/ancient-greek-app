@@ -2,7 +2,8 @@ from rest_framework import serializers
 from .models import (
     Lesson, Exercise, OrderWordsExercise, WordPiece,
     CompleteExercise, JoinWordsExercise,
-    ChooseRightAnswer, AnswerExercise
+    ChooseRightAnswer, AnswerExercise,
+    TipText,
 )
 from django.contrib.auth.models import User
 from random import shuffle
@@ -112,6 +113,12 @@ class AnswerExerciseSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class TipTextSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TipText
+        fields = '__all__'
+
+
 class LessonSoftSerializer(serializers.ModelSerializer):
     completed = serializers.SerializerMethodField()
 
@@ -152,6 +159,8 @@ class LessonDeepSerializer(serializers.ModelSerializer):
                 exercise_serializer = ChooseRightAnswerSerializer(e.chooserightanswer)
             elif e.type == AnswerExercise.__name__:
                 exercise_serializer = AnswerExerciseSerializer(e.answerexercise)
+            elif e.type == TipText.__name__:
+                exercise_serializer = TipTextSerializer(e.tiptext)
 
             if exercise_serializer:
                 exercise_list.append(exercise_serializer.data)
