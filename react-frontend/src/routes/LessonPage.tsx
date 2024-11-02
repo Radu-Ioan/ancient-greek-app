@@ -8,19 +8,12 @@ import CompleteExercise from "src/components/exercises/CompleteExercise";
 import AnswerExercise from "src/components/exercises/AnswerExercise";
 import ChooseRightAnswer from "src/components/exercises/ChooseRightAnswer";
 
-import {
-  Button,
-  Stack,
-} from "@mui/material";
+import { Button, Stack } from "@mui/material";
 
 import ScoreResult from "./components/ScoreResult";
 
 import NavigateNext from "@mui/icons-material/NavigateNext";
-import {
-  LESSON_URL,
-  SIGN_IN_PATH,
-  BASE_SERVER_URL,
-} from "src/utils";
+import { LESSON_URL, SIGN_IN_PATH, BASE_SERVER_URL } from "src/utils";
 import {
   playCorrectAudio,
   playWrongAudio,
@@ -28,6 +21,7 @@ import {
 } from "src/utils/media-service";
 import ProgressLine from "./components/ProgressLine";
 import CloseModal from "./components/CloseModal";
+import TipExercise from "src/components/exercises/TipExercise";
 
 const exerciseTypes = {
   answer: "AnswerExercise",
@@ -35,6 +29,7 @@ const exerciseTypes = {
   complete: "CompleteExercise",
   joinwords: "JoinWordsExercise",
   order: "OrderWordsExercise",
+  tip: "TipText",
 };
 
 function renderExercise(
@@ -104,6 +99,24 @@ function renderExercise(
         question={exerciseObj.question}
         answerChoices={exerciseObj.answer_choices}
         multiChoice={exerciseObj.multi_choice}
+        imageUrl={
+          exerciseObj.image
+            ? `${BASE_SERVER_URL}${exerciseObj.image}`
+            : undefined
+        }
+        audioUrl={
+          exerciseObj.audio
+            ? `${BASE_SERVER_URL}${exerciseObj.audio}`
+            : undefined
+        }
+        notifySubmission={notifySubmission}
+        key={idx}
+      />
+    ),
+
+    [exerciseTypes.tip]: (
+      <TipExercise
+        text={exerciseObj.text}
         imageUrl={
           exerciseObj.image
             ? `${BASE_SERVER_URL}${exerciseObj.image}`
@@ -188,7 +201,7 @@ export default function LessonPage() {
       })
       .then((res) => console.log("post response:", res));
 
-    if (scores.reduce((acc: number, x: number) => acc + x) === scores.length) {
+    if (scores.reduce((acc: number, x: number) => acc + x, 0) === scores.length) {
       setFullScore(true);
     }
 

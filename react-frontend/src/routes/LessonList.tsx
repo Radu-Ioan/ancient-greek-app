@@ -17,8 +17,6 @@ import {
   redirect,
   Link,
   useNavigate,
-  useFetcher,
-  useLocation,
 } from "react-router-dom";
 import { useState } from "react";
 import { LESSON_URL, SIGN_IN_PATH } from "src/utils";

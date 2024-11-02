@@ -26,7 +26,7 @@ export default function ScoreResult({ scores, fullScore, backPath }: any) {
           <p style={{ textAlign: "center", fontSize: "1.5rem" }}>
             Lesson completed
           </p>
-          <Stack direction="row" justifyContent="center">
+          {scores.length > 0 && <Stack direction="row" justifyContent="center">
             <label style={{ textAlign: "center", alignSelf: "center" }}>
               Score:
             </label>
@@ -50,7 +50,7 @@ export default function ScoreResult({ scores, fullScore, backPath }: any) {
               text={({ value, valueMax }) => `${value} / ${valueMax}`}
             />
             <CenteringBox></CenteringBox>
-          </Stack>
+          </Stack>}
           {fullScore && (
             <p style={{ textAlign: "center", fontSize: "1.7rem" }}>
               Congratulations!
